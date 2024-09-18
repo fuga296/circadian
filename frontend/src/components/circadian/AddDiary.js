@@ -117,6 +117,7 @@ const AddDiary = () => {
 
     const handleSubmit = async event => {
         event.preventDefault();
+        setIsLoading(true);
 
         const date = diaryInput.date;
         const main_text = diaryInput.mainText;
@@ -144,6 +145,7 @@ const AddDiary = () => {
             );
             window.location.reload();
         } catch (error) {
+            setIsLoading(false);
             setError('エラーが発生しました。');
         }
     };

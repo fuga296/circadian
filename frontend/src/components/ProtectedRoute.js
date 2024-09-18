@@ -11,7 +11,6 @@ const ProtectedRoute = ({ element }) => {
             try {
                 const decodedToken = jwtDecode(accessToken);
                 const currentTime = Date.now() / 1000;
-                // トークンの有効期限を確認
                 if (decodedToken.exp > currentTime) {
                     setIsAuthenticated(true);
                 } else {

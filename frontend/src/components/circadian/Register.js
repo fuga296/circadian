@@ -16,6 +16,11 @@ function Register() {
     const [passwordErrors, setPasswordErrors] = useState([]);
     const [passwordAgainErrors, setPasswordAgainErrors] = useState([]);
     const [registerError, setRegisterError] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        setIsLoading(false);
+    }, [])
 
     useEffect(() => {
         if (shouldAttemptRegister) {
@@ -97,18 +102,20 @@ function Register() {
 
     const handleRegister = async event => {
         event.preventDefault();
+        setIsLoading(true)
 
         validateUsername();
         validateEmail();
         validatePassword();
         validatePasswordAgain();
 
+        setIsLoading(false)
         setShouldAttemptRegister(true);
     };
 
     return (
         <div id='formContainer'>
-            <form id='registerForm' onSubmit={handleRegister}>
+            {isLoading ? <main id='loadingMessage'>Loading…</main> : <form id='registerForm' onSubmit={handleRegister}>
                 <h1>新規登録</h1>
 
                 <div id='inputContainer'>
@@ -169,7 +176,7 @@ function Register() {
                 <hr />
 
                 <div id='toLogin'>ログインは<Link to='/circadian/authentication/login'>こちら</Link></div>
-            </form>
+            </form>}
         </div>
     );
 };

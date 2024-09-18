@@ -8,6 +8,7 @@ const Setting = () => {
         email: '',
     });
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -18,6 +19,7 @@ const Setting = () => {
                 setError("エラーが発生しました");
             }
         };
+        setIsLoading(false);
         fetchUsers();
     }, []);
 
@@ -30,6 +32,7 @@ const Setting = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsLoading(true);
 
         const username = settings.username;
         const email = settings.email;
@@ -38,6 +41,7 @@ const Setting = () => {
             window.location.reload();
         setSettings(response.data);
         } catch (error) {
+            setIsLoading(false);
             setError('ユーザー情報の更新中にエラーが発生しました: ' + (error.response?.data?.detail || error.message));
         }
     };
@@ -47,8 +51,9 @@ const Setting = () => {
             <header>
                 <h1 id="title">設定</h1>
             </header>
-
-            {error ? <main id='errorMessage'>{error}</main> : <main>
+            {error ? <main id='errorMessage'>{error}</main> :
+            isLoading ? <main id='loadingMessage'>Loading…</main> :
+            <main>
                 <form id='settingForm' onSubmit={handleSubmit}>
                     <p>
                         <label htmlFor="username">ユーザーネーム</label>

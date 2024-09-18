@@ -53,7 +53,7 @@ const DiaryHistory = () => {
                         histories.map( (history, index) => (
                             <li key={index}>
                                 <div className='date'>{history.timestamp.slice(0, 16).replace("T", " | ")}</div>
-                                <div className='message'>{history.diary_date}の日記を{history.type}しました。</div>
+                                <div className='message'>{history.diary_date}の日記を{history.type}しました</div>
 
                                 <div className='diary'>
                                     <div className='main-text-container'>

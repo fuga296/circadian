@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../api/circadianAuth';
 import './Navigator.css';
@@ -10,10 +10,24 @@ import { NAV_SELECTION_LIST } from '../../utils/navUtils';
 
 const Navigator = () => {
     const navigate = useNavigate();
+    const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isNavCollapsed, setIsNavCollapsed] = useState(true);
     const navIconRef = useRef(null);
     const navigatorRef = useRef(null);
     const navSupporterRef = useRef(null);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowWidth(window.innerWidth);
+        };
+        window.addEventListener('resize', handleResize);
+
+        if ('ontouchstart' in window) {
+            navSupporterRef.current.style.display = 'none';
+        }
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, [])
 
     const handleClick = (event) => {
         const page = event.target.dataset.page
@@ -35,54 +49,59 @@ const Navigator = () => {
         };
     }
 
-    const slideNavContainer = (event) => {
+    const slideNavContainer = (width) => (event) => {
         if (isNavCollapsed) {
             if (event.type === 'mouseenter') {
                 navigatorRef.current.style.left = '0'
             } else {
-                navigatorRef.current.style.left = '-225px';
-
-                if (isNavCollapsed) {
+                navigatorRef.current.style.left = 'calc((10vw + 150px) * -1)';
+                if (width >= 768) {
                     navSupporterRef.current.style.width = '100px';
-                    navSupporterRef.current.style.zIndex = 'auto';
+                    navSupporterRef.current.style.display = 'block';
+                } else {
+                    navSupporterRef.current.style.display = 'none';
                 }
             }
-
-            event.target.id === 'navIcon' ? navIconRef.current.src = navChevronRithgIcon : navIconRef.current.src = navMenuIcon;
         }
+        if (isNavCollapsed) event.target.id === 'navIcon' ? navIconRef.current.src = navChevronRithgIcon : navIconRef.current.src = navMenuIcon;
     }
 
-    const handleNavIconClick = () => {
+    const handleNavIconClick = (width) => () => {
         if (isNavCollapsed) {
-            navSupporterRef.current.style.width = '254px';
-            navSupporterRef.current.style.zIndex = '98';
+            if (width >= 768) {
+                navSupporterRef.current.style.width = 'calc(var(--navigator-width-s) + 50px)';
+            } else {
+                navSupporterRef.current.style.display = 'none';
+            }
         } else {
-            navSupporterRef.current.style.zIndex = '98';
+            navigatorRef.current.style.left = 'calc((10vw + 150px) * -1)';
+            navSupporterRef.current.style.width = 'calc(var(--navigator-width-s) + 50px)';
         }
-
         setIsNavCollapsed(!isNavCollapsed);
     }
 
     return (
         <div id='navContainer'>
-            <div id='navSupporter' ref={navSupporterRef}
-            onMouseEnter={slideNavContainer}
-            onMouseLeave={slideNavContainer}></div>
+            <div id='navSupporter'
+            ref={navSupporterRef}
+            onMouseEnter={slideNavContainer(window.innerWidth)}
+            onMouseLeave={slideNavContainer(window.innerWidth)}
+            style={{ display: windowWidth >= 768 ? 'block' : 'none' }}></div>
 
             {isNavCollapsed && (
                 <div className='navIconContainer'>
                     <img src={navMenuIcon} alt='nav menu icon' id='navIcon' ref={navIconRef}
-                    onMouseEnter={slideNavContainer}
-                    onMouseLeave={slideNavContainer}
-                    onClick={handleNavIconClick} />
+                    onMouseEnter={slideNavContainer(window.innerWidth)}
+                    onMouseLeave={slideNavContainer(window.innerWidth)}
+                    onClick={handleNavIconClick(window.innerWidth)} />
                 </div>
             )}
 
-            <div className={(isNavCollapsed ? 'collapsedNavigator' : 'expandedNavigator')} id='navigator' ref={navigatorRef} onMouseEnter={slideNavContainer} onMouseLeave={slideNavContainer}>
+            <div className={(isNavCollapsed ? 'collapsedNavigator' : 'expandedNavigator')} id='navigator' ref={navigatorRef} onMouseEnter={slideNavContainer(window.innerWidth)} onMouseLeave={slideNavContainer(window.innerWidth)}>
                 {!isNavCollapsed && (
                     <div className='navIconContainer'>
                         <img src={navChevronLeftIcon} alt='nav icon' id='navIcon' ref={navIconRef}
-                        onClick={() => {handleNavIconClick();}} />
+                        onClick={handleNavIconClick(window.innerWidth)} />
                     </div>
                 )}
 

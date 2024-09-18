@@ -12,6 +12,17 @@
     border-inline: 1px solid #777;
 }
 
+@media (max-width: 767px) {
+    div#formContainer {
+        grid-template-columns: 1fr;
+    }
+    #registerForm {
+        grid-column: 1;
+    }
+}
+
+
+
 #inputContainer {
     height: fit-content;
     min-height: 340px;

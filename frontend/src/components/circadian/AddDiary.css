@@ -43,6 +43,12 @@ input[type="number"]::-webkit-outer-spin-button {
     grid-template-columns: 25% 1fr;
 }
 
+@media (max-width: 767px) {
+    #addDiaryContainer {
+        grid-template-rows: 40px 50% 1fr;
+    }
+}
+
 
 
 #dateContainer {
@@ -112,6 +118,25 @@ input[type="number"]::-webkit-outer-spin-button {
     border-radius: 10px;
     background-color: var(--submit-btn-color);
     color: white;
+}
+
+@media (max-width: 767px) {
+    #dateContainer > span {
+        font-size: 24px;
+    }
+
+    #year > input {
+        width: 64px;
+    }
+
+    #month > input, #day > input {
+        width: 33px;
+    }
+
+    #diarySubmit {
+        height: 35px;
+        padding-inline: 20px;
+    }
 }
 
 

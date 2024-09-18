@@ -32,6 +32,13 @@ div.diary-container {
     grid-template-columns: 25% 1fr;
 }
 
+@media (max-width: 767px) {
+    div.diary-container {
+        grid-template-rows: 40px 50% 1fr;
+    }
+}
+
+
 
 div.date-container {
     position: relative;
@@ -72,6 +79,12 @@ div.date-container {
     right: 0;
     background-color: white;
     border-radius: 50%;
+}
+
+@media (max-width: 767px) {
+    .date-container > span {
+        font-size: 24px;
+    }
 }
 
 

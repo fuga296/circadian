@@ -13,7 +13,7 @@ export const Menu = ({ isExpanded, isReverseOrder, setIsReverseOrder, navigate }
                     <label htmlFor='orderSwitch'></label>
                 </span>
             </li>
-            <li className='btn-menu' onClick={() => navigate('/circadian/history/user')}>編集履歴</li>
+            <li className='btn-menu' onClick={() => navigate('/circadian/history/user')}><span>編集履歴</span></li>
         </ul>
     </div>
 );
@@ -29,9 +29,9 @@ export const MetaInfo = ({ diary, isExpanded, navigate }) => (
                 '最終編集日': diary.updated_at,
                 '日記ID': diary.front_id
             }).map(([label, value]) => (
-                <li key={label}><span>{label}:</span>{value}</li>
+                <li key={label}><span>{label}:</span><span>{value}</span></li>
             ))}
-            <li className='btn-menu' onClick={() => navigate(`/circadian/history/${diary.date}`)}>編集履歴</li>
+            <li className='btn-menu' onClick={() => navigate(`/circadian/history/${diary.date}`)}><span>編集履歴を見る</span></li>
         </ul>
     </div>
 );

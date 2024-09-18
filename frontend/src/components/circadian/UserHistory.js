@@ -67,7 +67,7 @@ const UserHistory = () => {
                                 <div className='date'>{history.timestamp.slice(0, 16).replace("T", " | ")}</div>
 
                                 <div className='message'>
-                                    {history.diary_date} の日記を{formatType(history.type)}しました。
+                                    {history.diary_date} の日記を{formatType(history.type)}しました
                                 </div>
 
                                 <div className='diary'>

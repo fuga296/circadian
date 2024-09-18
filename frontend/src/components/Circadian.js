@@ -1,5 +1,4 @@
 import { Route, Routes, Outlet } from 'react-router-dom';
-
 import Home from "./circadian/Home";
 import ReadDiary from './circadian/ReadDiary';
 import ReadList from './circadian/ReadList';
@@ -11,11 +10,11 @@ import TermOfUse from './circadian/TermOfUse';
 import Login from './circadian/Login';
 import Register from './circadian/Register';
 import Navigator from "./circadian/Navigator";
-
 import UserHistory from './circadian/UserHistory';
 import DiaryHistory from './circadian/DiaryHistory';
 import Files from './circadian/Files';
 import ProtectedRoute from './ProtectedRoute';
+import NotFound from './circadian/NotFound';
 
 function PageLayout() {
     return (
@@ -46,16 +45,14 @@ function CircadianApp() {
 
                     <Route path='file/:path' element={<ProtectedRoute element={<Files />} />} />
 
-                    <Route path='*' element={<ProtectedRoute element={<></>} />} />
+                    <Route path='*' element={<NotFound />} />
                 </Route>
 
                 <Route path='authentication'>
                     <Route path='login' element={<Login />} />
                     <Route path='register' element={<Register />} />
                 </Route>
-
             </Route>
-            <Route path='/' element={<Login />} />
         </Routes>
     );
 }

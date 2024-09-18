@@ -32,6 +32,20 @@ html, body {
   grid-column: 2;
 }
 
+@media (max-width: 767px) {
+  #contentContainer {
+    grid-template-columns: 1fr;
+  }
+
+  #contentContainer > header {
+    grid-column: 1;
+  }
+
+  #contentContainer > main {
+    grid-column: 1;
+  }
+}
+
 
 main#errorMessage {
   color: var(--error-font-color);

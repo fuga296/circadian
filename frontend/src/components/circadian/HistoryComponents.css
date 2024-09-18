@@ -3,11 +3,21 @@ div.sub-text-selector {
     grid-row: 3;
 }
 
+.sub-text-selector > div > span {
+    margin-left: 3px;
+}
+
 div.sub-text-selector label {
     grid-column: 1;
     grid-row: 3;
-    font-size: 17px;
+    font-size: clamp(16px, 1.32vw, 20px);
 }
+
+.sub-text-selector input[type="radio"] {
+    width: clamp(16px, 1.4vw, 20px);
+    margin: auto clamp(0px, 0.198vw, 3px) auto 0;
+}
+
 
 
 .sub-text-content {

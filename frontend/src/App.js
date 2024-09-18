@@ -31,8 +31,6 @@ const AppContent = () => {
         logVisit();
         window.addEventListener('beforeunload', logLeave);
 
-        document.title = 'STAY';
-
         return () => {
             document.removeEventListener('DOMContentLoaded', logVisit);
             window.removeEventListener('beforeunload', logLeave);

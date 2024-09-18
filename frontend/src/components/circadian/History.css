@@ -8,7 +8,19 @@
     margin-bottom: 25px;
 }
 
-.histories > li .expand-icon, .histories > li > .date, .histories > li > .message {
+@media (max-width: 767px) {
+    .histories {
+        padding: 0;
+    }
+
+    .histories > li {
+        grid-template-columns: 120px 1fr;
+    }
+}
+
+
+
+.histories > li > .date, .histories > li > .message {
     display: flex;
     align-items: center;
 }
@@ -20,14 +32,27 @@ div.date {
 
 div.message {
     grid-column: 2;
-    font-size: 17px;
+    font-size: 15px;
 }
+
+@media (max-width: 767px) {
+    div.date {
+        font-size: 11px;
+    }
+
+    div.message {
+        font-size: 15px;
+    }
+}
+
+
 
 .diary {
     grid-column: 1 / 3;
     grid-row: 2;
     display: grid;
-    grid-template-columns: 160px 320px;
+    width: 480px;
+    grid-template-columns: 1fr 2fr;
     grid-template-rows: 0px 300px 180px;
 }
 
@@ -36,3 +61,8 @@ div.message {
     grid-row: 2;
 }
 
+@media (max-width: 767px) {
+    .diary {
+        width: 100%;
+    }
+}

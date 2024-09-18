@@ -37,13 +37,21 @@
 
 #calendarBox {
     width: 100%;
-    height: calc(100% - 100px);
+    height: min(calc(100% - 100px), 120vw);
     margin-top: 20px;
     border: 1px solid black;
     display: grid;
     grid-template-rows: repeat(6, 1fr);
     grid-template-columns: repeat(7, 1fr);
 }
+
+@media (width: 767px) {
+    #calendarBox {
+        height: 100vw;
+    }
+}
+
+
 
 .calendar-day {
     font-size: 20px;
@@ -76,4 +84,10 @@
 .calendar-day.next-month-day {
     background-color: var(--other-month-bg);
     color: var(--other-month-color);
+}
+
+@media (max-width: 767px) {
+    .calendar-day {
+        font-size: clamp(14px, 2.6vw, 20px);
+    }
 }

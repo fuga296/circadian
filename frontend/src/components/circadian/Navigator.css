@@ -1,5 +1,5 @@
 #navContainer {
-    z-index: calc(infinity);
+    z-index: 100;
 }
 
 div.expandedNavigator {

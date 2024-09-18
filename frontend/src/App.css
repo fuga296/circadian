@@ -1,0 +1,48 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  font-size: 16px;
+}
+
+:root {
+  --error-font-color: red;
+}
+
+
+
+#contentContainer {
+  display: grid;
+  grid-template-rows: 150px 1fr;
+  grid-template-columns: 1fr 55vw 1fr;
+}
+
+#contentContainer > header {
+  position: relative;
+  bottom: 0;
+  z-index: 0;
+  grid-row: 1;
+  grid-column: 2;
+}
+
+#contentContainer > main {
+  grid-row: 2;
+  grid-column: 2;
+}
+
+
+main#errorMessage {
+  color: var(--error-font-color);
+  font-size: 1.56rem;
+}
+
+p#errorMessage {
+  color: var(--error-font-color);
+  margin: 0;
+}
+
+main#loadingMessage {
+  font-size: 1.56rem;
+}

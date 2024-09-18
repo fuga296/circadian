@@ -1,0 +1,92 @@
+:root {
+    --diary-block-border-color: #bbb;
+    --diary-block-height: 650px;
+}
+
+
+
+#diariesContainer {
+    margin-top: 100px;
+}
+
+#diariesContainer > ul {
+    padding: 0;
+}
+
+
+
+li.diary-block {
+    width: 100%;
+    height: var(--diary-block-height);
+    margin-bottom: 80px;
+    border: 1px solid var(--diary-block-border-color);
+    display: flex;
+}
+
+
+div.diary-container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 55px 50% 1fr;
+    grid-template-columns: 25% 1fr;
+}
+
+
+div.date-container {
+    position: relative;
+    border: 1px solid var(--diary-block-border-color);
+    grid-row: 1;
+    grid-column: 1 / 3;
+    display: flex;
+    align-items: center;
+}
+
+.date-container > span {
+    font-size: 30px;
+    margin-left: min(25px, 1.65vw);
+}
+
+.date-container > span.year {
+    margin-left: min(20px, 1.32vw);
+}
+
+.date-container > span.day-of-week {
+    margin-left: min(10px, 0.66vw);
+}
+
+.date-container > span > span {
+    margin-right: 5px;
+}
+
+.meta-info-container {
+    position: absolute;
+    right: min(20px, 1.32vw);
+    display: flex;
+    align-items: center;
+}
+
+.meta-info-container > img {
+    width: 35px;
+    position: absolute;
+    right: 0;
+    background-color: white;
+    border-radius: 50%;
+}
+
+
+
+div.main-text-container {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+div.main-text-container > div {
+    width: 100%;
+    height: 100%;
+    padding: 2px;
+    border: 1px solid var(--diary-block-border-color);
+    font-size: 16px;
+    scrollbar-gutter: stable;
+}
+

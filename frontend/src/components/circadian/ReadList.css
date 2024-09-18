@@ -1,0 +1,77 @@
+:root {
+    --diary-list-border-color: #c1c1c1;
+    --diary-list-height: 80px;
+    --meta-color: #888;
+}
+
+
+
+#listContainer {
+    margin-top: 100px;
+}
+
+#listContainer > ul {
+    padding: 0;
+}
+
+
+
+.diary-list {
+    list-style: none;
+    border: 1px solid var(--diary-list-border-color);
+    background-color: white;
+    border-top: none;
+    height: calc(var(--diary-list-height) - 1px);
+    display: grid;
+    grid-template-columns: 3fr 4fr 5fr 5fr;
+    transition: filter .3s;
+}
+
+.diary-list:nth-child(2) {
+    border-top: 1px solid var(--diary-list-border-color);
+    height: var(--diary-list-height);
+}
+
+.diary-list:hover {
+    filter: brightness(0.95);
+}
+
+.diary-list:active {
+    filter: brightness(0.79);
+}
+
+
+
+.diary-list > .sequence-number {
+    font-size: 18px;
+    padding-block: 5px;
+    grid-column: 1;
+}
+
+.diary-list > .date {
+    font-size: 18px;
+    padding-block: 5px;
+    grid-column: 2;
+}
+
+.diary-list > .short-main-text {
+    height: 100%;
+    padding-block: 5px;
+    padding-inline: 8px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    grid-column: 3;
+}
+
+.diary-list > .meta {
+    font-size: 14px;
+    display: flex;
+    align-items: end;
+    justify-self: end;
+    padding-right: 5px;
+    color: var(--meta-color);
+    grid-column: 4;
+}

@@ -1,0 +1,89 @@
+#formContainer {
+    display: grid;
+    grid-template-columns: 1fr 55vw 1fr;
+}
+
+#loginForm {
+    grid-column: 2;
+    height: fit-content;
+    min-height: 80vh;
+    margin-block: 10vh;
+    padding-inline: 20px;
+    border-inline: 1px solid #777;
+}
+
+#inputContainer {
+    height: fit-content;
+    min-height: 340px;
+}
+
+.input {
+    margin-top: 24px;
+}
+
+.input > label {
+    text-align: right;
+    margin-right: 15px;
+    margin-bottom: 2px;
+    font-size: 15px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.input > input {
+    width: 100%;
+    height: 34px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: .3s;
+}
+
+.input > input:focus {
+    border: 1px solid #0E5FBB;
+    outline: 1px solid #0E5FBB;
+    transition: .3s;
+}
+
+#buttonContainer {
+    margin-top: 150px;
+    width: 100%;
+    text-align: center;
+}
+
+.error-message {
+    font-size: 13px;
+    color: red;
+}
+
+#login-error-message {
+    font-size: 15px;
+    color: red;
+}
+
+#buttonContainer > button {
+    width: 150px;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #337AB7;
+    border: none;
+    border-radius: 8px;
+    transition: .3s;
+}
+
+#buttonContainer > button:hover {
+    background-color: #286090;
+}
+
+#buttonContainer > button:active {
+    background-color: #204b70;
+    transition: .3s;
+}
+
+#toRegister {
+    margin-top: 38px;
+    height: 103px;
+    text-align: center;
+    font-size: 18px;
+}

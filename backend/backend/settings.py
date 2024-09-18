@@ -25,7 +25,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-qegjwqd$seeiq9w(*3+w%*rro))gy#$q463#32$ajr*ly^@9$s"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS=[
+    'https://circadian.onrender.com/'
+]
 
 # Application definition
 
@@ -72,7 +76,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "backend.wsgi.application"
+WSGI_APPLICATION = "backend.backend.wsgi.application"
 
 
 # Database

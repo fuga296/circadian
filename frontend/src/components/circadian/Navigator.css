@@ -107,7 +107,7 @@ li.navSelection {
     padding-inline: 8px;
     border-radius: 8px;
     user-select: none;
-    z-index: calc(auto + 10);
+    z-index: 10;
     transition: 0.3s;
     display: flex;
     align-items: center;

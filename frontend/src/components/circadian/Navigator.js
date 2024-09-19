@@ -63,7 +63,13 @@ const Navigator = () => {
                 }
             }
         }
-        if (isNavCollapsed) event.target.id === 'navIcon' ? navIconRef.current.src = navChevronRithgIcon : navIconRef.current.src = navMenuIcon;
+        if (isNavCollapsed && event.target.id === 'navIcon') {
+            if (event.type === 'mouseenter') {
+                navIconRef.current.src = navChevronRithgIcon;
+            } else {
+                navIconRef.current.src = navMenuIcon;
+            }
+        }
     }
 
     const handleNavIconClick = (width) => () => {

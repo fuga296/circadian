@@ -1,6 +1,6 @@
 import axiosInstance from './axiosConfig';
 
-// const API_URL = 'localhost:8000/circadian/api/';
+// const API_URL = 'circadian/api/';
 const API_URL = 'https://circadian.onrender.com/circadian/api/';
 
 const logAuth = async (status) => {

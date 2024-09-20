@@ -82,6 +82,10 @@ input[type="number"]::-webkit-outer-spin-button {
     width: 40px;
 }
 
+#addDiaryContainer #dateContainer > span > span {
+    margin: 0;
+}
+
 #dateContainer > span:has(input[type="number"])::after {
     content: '';
     position: absolute;
@@ -122,16 +126,20 @@ input[type="number"]::-webkit-outer-spin-button {
 
 @media (max-width: 767px) {
     #dateContainer > span {
-        font-size: 23px;
+        font-size: 22px;
         height: 35px;
     }
 
     #year > input {
-        width: 64px;
+        width: 70px;
     }
 
     #month > input, #day > input {
-        width: 33px;
+        width: 37px;
+    }
+
+    #dateContainer > span > input[type="number"] {
+        margin-right: 3px;
     }
 
     #diarySubmit {

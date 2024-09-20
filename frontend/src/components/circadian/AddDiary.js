@@ -163,9 +163,9 @@ const AddDiary = () => {
                 <form id='diaryForm' onSubmit={handleSubmit} >
                     <div id='addDiaryContainer'>
                         <div id='dateContainer'>
-                            <span id='year'><input type='number' name='year' min="1000" max="9999" onChange={handleYearChange} value={diaryInput.year} />年</span>
-                            <span id='month'><input type='number' name='month' min="1" max="12" onChange={handleMonthChange} value={diaryInput.month} />月</span>
-                            <span id='day'><input type='number' name='day' min="1" max={maxDay} onChange={handleDayChange} value={diaryInput.day} />日</span>
+                            <span id='year'><input type='number' name='year' min="1000" max="9999" onChange={handleYearChange} value={diaryInput.year} /><span>年</span></span>
+                            <span id='month'><input type='number' name='month' min="1" max="12" onChange={handleMonthChange} value={diaryInput.month} /><span>月</span></span>
+                            <span id='day'><input type='number' name='day' min="1" max={maxDay} onChange={handleDayChange} value={diaryInput.day} /><span>日</span></span>
                             <span id='dayOfWeek' ref={dayOfWeekRef}>({DAYS_OF_WEEK[new Date(diaryInput.date)]})</span>
                             <button type='submit' id='diarySubmit'>送信</button>
                         </div>

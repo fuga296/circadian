@@ -130,11 +130,11 @@ input[type="number"]::-webkit-outer-spin-button {
     }
 
     #year > input {
-        width: 64px;
+        width: 70px;
     }
 
     #month > input, #day > input {
-        width: 33px;
+        width: 37px;
         height: 35px;
     }
 

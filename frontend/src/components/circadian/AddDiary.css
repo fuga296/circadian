@@ -77,7 +77,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 #year > input {
-    width: 75px;
+    width: 70px;
 }
 
 #month > input, #day > input {
@@ -108,8 +108,8 @@ input[type="number"]::-webkit-outer-spin-button {
     border: none;
     outline: none;
     text-align: right;
-    margin-right: 5px;
-    font-size: .9em;
+    padding-right: 0;
+    font-size: .8em;
 }
 
 #diarySubmit {
@@ -133,15 +133,11 @@ input[type="number"]::-webkit-outer-spin-button {
     }
 
     #year > input {
-        width: 70px;
+        width: 65px;
     }
 
     #month > input, #day > input {
         width: 37px;
-    }
-
-    #dateContainer > span > input[type="number"] {
-        margin-right: 3px;
     }
 
     #diarySubmit {

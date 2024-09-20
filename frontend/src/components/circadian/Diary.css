@@ -92,5 +92,6 @@
     padding: 2px;
     border: 1px solid var(--diary-block-border-color);
     font-size: 16px;
+    overflow: auto;
     scrollbar-gutter: stable;
 }

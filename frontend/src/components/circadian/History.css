@@ -61,6 +61,11 @@ div.message {
     grid-row: 2;
 }
 
+.main-text-container > div {
+    overflow: auto;
+    scrollbar-gutter: stable;
+}
+
 @media (max-width: 767px) {
     .diary {
         width: 100%;

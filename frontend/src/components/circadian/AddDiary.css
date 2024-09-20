@@ -135,6 +135,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
     #month > input, #day > input {
         width: 33px;
+        height: 35px;
     }
 
     #diarySubmit {

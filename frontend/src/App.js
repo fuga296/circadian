@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import CircadianApp from './components/Circadian';
+import AppRoutes from './components/AppRoutes';
 import "./App.css"
 import axiosInstance from './api/axiosConfig';
 
@@ -37,7 +37,7 @@ const AppContent = () => {
         };
     }, []);
 
-    return <CircadianApp />;
+    return <AppRoutes />;
 }
 
 const App = () => {

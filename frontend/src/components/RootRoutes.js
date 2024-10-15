@@ -1,4 +1,8 @@
-const apps = [["Circadian", "circadian/home"]]
+const apps = [
+    {name: "Circadian", url: "circadian/home", description: "完成度が低いので使用を控えてください"},
+    {name: "Warning", url: "cheering/warning", description: ""},
+    // {name: "Message", url: "cheering/message", description: ""},
+]
 
 const RootRoutes = () => {
     return (
@@ -6,7 +10,7 @@ const RootRoutes = () => {
             <h1>ルートルート</h1>
             <ul>
                 {apps.map((app, index) => (
-                    <li><a href={app[1]} key={index}>{app[0]}</a></li>
+                    <li key={index}><a href={app.url}>{app.name}</a> {app.description}</li>
                 ))}
             </ul>
         </div>
@@ -15,4 +19,4 @@ const RootRoutes = () => {
 
 export default RootRoutes;
 
-// AppRoutes、RootRoutes、App
+// setting, roottoutes, message, warning, approutes, cheering, app, circadian

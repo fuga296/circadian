@@ -15,8 +15,43 @@ import DiaryHistory from './circadian/DiaryHistory';
 import Files from './circadian/Files';
 import ProtectedRoute from './ProtectedRoute';
 import NotFound from './circadian/NotFound';
+import axiosInstance from '../api/axiosConfig';
+import { useEffect } from 'react';
+
 
 function PageLayout() {
+    useEffect(() => {
+        const logVisit = async () => {
+            try {
+                await axiosInstance.post('/circadian/api/log/create/', {
+                    status: 'VISIT',
+                    detail: window.location.href
+                });
+            } catch (error) {
+                console.error("Visit log error:", error);
+            }
+        };
+
+        const logLeave = async () => {
+            try {
+                await axiosInstance.post('/circadian/api/log/create/', {
+                    status: 'LEAVE',
+                    detail: window.location.href
+                });
+            } catch (error) {
+                console.error("Leave log error:", error);
+            }
+        };
+
+        logVisit();
+        window.addEventListener('beforeunload', logLeave);
+
+        return () => {
+            document.removeEventListener('DOMContentLoaded', logVisit);
+            window.removeEventListener('beforeunload', logLeave);
+        };
+    }, []);
+
     return (
         <>
             <Navigator />

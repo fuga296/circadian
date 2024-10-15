@@ -1,7 +1,7 @@
 const Warning = () => {
     return (
         <div>
-            <h1>撮影と連絡以外でのスマホの使用は禁止ですよ</h1>
+            <h1>撮影と連絡以外で</span><span>のスマホの使用は禁止ですよ</span></h1>
         </div>
     )
 }

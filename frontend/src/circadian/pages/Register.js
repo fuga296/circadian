@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Authentication from "../components/Auth/Authentication";
-import { register } from "../services/circadianAuth";
+import { register } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {

@@ -1,0 +1,21 @@
+.subTextSelectionContainer {
+    border: 1px solid var(--border-color-gray);
+    border-bottom-left-radius: 8px;
+    height: 100%;
+    padding-block: 10px;
+    user-select: none;
+}
+
+.subTextSelectionList {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 5px;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.subTextSelection {
+    font-size: 18px;
+}

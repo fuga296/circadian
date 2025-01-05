@@ -1,0 +1,96 @@
+.subTextContainer {
+    min-width: 100%;
+    min-height: 100%;
+}
+
+
+.textarea {
+    display: block;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Hiragino Sans GB", メイリオ, Meiryo, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    border: 1px solid var(--border-color-gray);
+    border-bottom-right-radius: 8px;
+    outline: none;
+}
+
+.textarea:focus {
+    border: 2px solid var(--forcus-border-color-black);
+}
+
+
+.todosContainer {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--border-color-gray);
+    border-bottom-right-radius: 8px;
+    padding: 5px;
+    overflow-y: auto;
+}
+
+.addTodo {
+    height: 28px;
+    border-radius: 8px;
+    max-width: 370px;
+    width: 80%;
+    border: 1px solid var(--border-color-gray);
+    border-bottom-right-radius: 8px;
+    outline: none;
+}
+
+.addTodo:focus {
+    border: 2px solid var(--forcus-border-color-black);
+}
+
+.addTodoBtn {
+    margin-left: 5px;
+    padding-inline: 12px;
+}
+
+.todoList {
+    padding-left: 5px;
+    margin-bottom: 0;
+    list-style: none;
+}
+
+.todoItem {
+    display: flex;
+}
+
+.deleteTodoContainer {
+    display: flex;
+    align-items: center;
+    height: 23px;
+    margin-right: 14px;
+    border: none;
+    background-color: white;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.deleteTodoContainer:hover {
+    filter: var(--hover-filter);
+    opacity: 0.7;
+}
+
+.deleteTodoContainer:active {
+    filter: var(--active-filter);
+    opacity: 0.5;
+}
+
+.deleteTodo {
+    width: 13px;
+    user-select: none;
+}
+
+
+.filesContainer {
+    width: 100%;
+    height: 100%;
+    border: 1px solid var(--border-color-gray);
+    border-bottom-right-radius: 8px;
+    padding: 5px;
+    overflow-y: auto;
+}

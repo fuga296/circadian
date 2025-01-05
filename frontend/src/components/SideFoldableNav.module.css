@@ -1,0 +1,72 @@
+.navContainer {
+    width: var(--nav-slide-width);
+    z-index: 100;
+    background-color: white;
+    position: fixed;
+    transition: .3s;
+}
+
+.expandedNavContainer {
+    height: 100vh;
+    box-shadow: none;
+    border-right: 1px solid #c8c8c8;
+    border-radius: 0;
+
+    top: 0;
+}
+
+.collapsedNavContainer {
+    height: 80vh;
+    box-shadow: 3px 5px 15px 0px #777777;
+    border-right: none;
+    border-radius: 0 10px 10px 0;
+
+    top: 80px;
+}
+
+
+.navLogo {
+    width: 100%;
+    margin-top: 10px;
+}
+
+
+.navSelectionUl {
+    list-style: none;
+    padding: 0;
+    margin-top: 50px;
+    user-select: none;
+}
+
+
+.navSelection {
+    background-color: white;
+    padding-block: 4px;
+    padding-inline: 8px;
+    border-radius: 8px;
+    user-select: none;
+    z-index: 10;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+.navSelection:hover {
+    filter: var(--hover-filter);
+}
+
+.navSelection:active {
+    filter: var(--active-filter);
+}
+
+
+.navSelectionIconContainer {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    width: 8.7%;
+}
+
+.navSelectionIcon {
+    width: max(100%, 15px);
+}

@@ -1,9 +1,0 @@
-main > ul {
-    padding: 0;
-}
-
-@media (max-width: 767px) {
-    main > ul {
-        padding: 40px;
-    }
-}

@@ -1,0 +1,40 @@
+.logoutContainer {
+    padding-top: 50px;
+    text-align: center;
+}
+
+.logoutTitle {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.logoutMessage {
+    font-size: 1.2rem;
+    color: #666666;
+    margin-bottom: 50px;
+}
+
+.logoutButton {
+    padding: 15px 30px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.logoutButton.confirm {
+    background-color: #ff4d4d;
+    color: #ffffff;
+}
+
+.logoutButton.cancel {
+    background-color: #cccccc;
+    color: #333333;
+}
+
+.logoutButton:hover {
+    opacity: 0.9;
+}

@@ -1,0 +1,22 @@
+.pageContainer {
+    display: grid;
+    grid-template-columns: 1fr 55vw 1fr;
+    transition: margin-left .3s;
+}
+
+.contentContainer {
+    display: grid;
+    grid-template-rows: 150px 1fr;
+    grid-column: 2;
+}
+
+
+@media (max-width: 768px) {
+    .pageContainer {
+        grid-template-columns: 1fr;
+    }
+
+    .contentContainer {
+        grid-column: 1;
+    }
+}

@@ -1,0 +1,49 @@
+.accordion {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+}
+
+.header.opened {
+    background-color: #f1f1f1;
+}
+
+.title {
+    font-size: 14px;
+    margin: 0;
+    color: #333;
+}
+
+.icon {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.icon.rotated {
+    transform: rotate(180deg);
+}
+
+.content {
+    padding: 0 15px;
+    background-color: #fff;
+    transition: max-height 0.3s ease;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.content p {
+    margin: 10px 0;
+}

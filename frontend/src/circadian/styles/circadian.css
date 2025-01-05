@@ -1,0 +1,62 @@
+:root {
+    --hover-filter: brightness(0.9);
+    --active-filter: brightness(0.8);
+
+    --nav-slide-width: max(15vw, 160px);
+    --font-color-light-black: #333;
+    --font-color-black: #1b1b1b;
+
+    --border-color-black: #171717;
+    --border-color-gray: #ccc;
+
+    --forcus-border-color-black: #151515;
+    --forcus-border-color: #007bff;
+
+    --btn-bg-color: #337AB7;
+
+    --diary-header-font-size: min(28px, calc(2.5vw + 7px));
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    font-size: 16px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+    -moz-appearance: textfield;
+    /* appearance: textfield; */
+}
+
+
+.circle-spin-1 {
+    --size: 24px;
+    --stroke-width: calc(var(--size) / 6);
+    --color: currentColor;
+    --animation-timing-function: linear;
+    --animation-duration: 1s;
+    width: var(--size);
+    height: var(--size);
+    border-width: var(--stroke-width);
+    border-style: solid;
+    border-color: var(--color) var(--color) var(--color) transparent;
+    border-radius: 50%;
+    transform: rotate(0deg);
+    animation: var(--animation-timing-function) var(--animation-duration) infinite circle-spin-1-animation;
+}
+
+@keyframes circle-spin-1-animation {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

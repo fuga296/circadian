@@ -1,16 +1,12 @@
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppRoutes from './components/AppRoutes';
 import "./App.css"
-
-const AppContent = () => {
-    return <AppRoutes />;
-}
+import CircadianRoute from './circadian/routes/CircadianRoute';
 
 const App = () => {
     return (
         <Router>
             <div className="App">
-                <AppContent />
+                <CircadianRoute />
             </div>
         </Router>
     );

@@ -1,0 +1,6 @@
+.footer {
+    display: grid;
+    grid-template-columns: 25% 1fr;
+    grid-row: 3;
+    height: 100%;
+}

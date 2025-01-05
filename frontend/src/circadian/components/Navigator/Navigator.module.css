@@ -1,0 +1,44 @@
+.navIconContainer {
+    position: fixed;
+    top: 10px;
+    z-index: 101;
+    background-color: white;
+    border-radius: 5px;
+    padding: 2px;
+    height: 32px;
+    user-select: none;
+    transition: background-color 0.3s;
+    transition: left .2s ease, transform .3s ease, filter .2s ease;
+}
+
+.navIconContainer:hover {
+    filter: var(--hover-filter);
+}
+
+.navIconContainer:active {
+    filter: var(--active-filter);
+}
+
+.navIconContainer.expanded {
+    left: calc(var(--nav-slide-width) + 10px);
+    transform: rotate(180deg);
+}
+
+.navIconContainer.collapsed {
+    left: 10px;
+}
+
+
+.navIcon {
+    width: 28px;
+}
+
+
+.navSupporter {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: calc(var(--nav-slide-width) * 2 / 3);
+    z-index: 99;
+}

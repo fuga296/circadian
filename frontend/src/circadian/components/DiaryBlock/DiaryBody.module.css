@@ -1,0 +1,19 @@
+.diaryBody {
+    grid-row: 2;
+}
+
+.textarea {
+    display: block;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Helvetica, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Hiragino Sans GB", メイリオ, Meiryo, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+    color: var(--font-color-black);
+    border: 1px solid var(--border-color-gray);
+    outline: none;
+    transition: border-color .3s;
+}
+
+.textarea:focus {
+    border: 2px solid var(--forcus-border-color-black);
+}

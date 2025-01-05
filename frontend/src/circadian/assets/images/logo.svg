@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400">
+    <style>
+        .text {
+            font-family: Arial, sans-serif;
+            font-size: 200px;
+            font-weight: normal;
+            fill: #37d3c6;
+        }
+    </style>
+    <text x="50" y="300" class="text">CIRCADIAN</text>
+</svg>

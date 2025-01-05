@@ -1,0 +1,8 @@
+.diaryBlock {
+    display: grid;
+    grid-template-rows: 50px 60% 1fr;
+    width: 100%;
+    margin-bottom: 50px;
+    border: 1px solid var(--border-color-gray);
+    border-radius: 8px;
+}

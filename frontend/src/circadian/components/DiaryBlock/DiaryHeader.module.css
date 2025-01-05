@@ -1,0 +1,101 @@
+.diaryHeader {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    border: 1px solid var(--border-color-gray);
+    border-radius: 8px 8px 0 0;
+    grid-row: 1;
+}
+
+
+.dateContainer {
+    position: relative;
+    font-size: var(--diary-header-font-size);
+    margin-left: min(20px, .9vw);
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.dateContainer::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 5px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--font-color-black);
+    transition: background-color .2s;
+}
+
+.dayOfWeekContainer::after {
+    height: 0;
+}
+
+.dateContainer:has(.dateInput:focus)::after {
+    height: 2px;
+}
+
+
+.dateInput {
+    border: none;
+    outline: none;
+    margin-right: 5px;
+    text-align: right;
+    font-size: .8em;
+    color: var(--font-color-black);
+}
+
+
+.yearInput {
+    width: min(65px, 3em);
+}
+
+.monthInput {
+    width: min(35px, 1.6em);
+}
+
+.dayInput {
+    width: min(35px, 1.6em);
+}
+
+.dateContainer.dayOfWeekContainer {
+    color: var(--font-color-black);
+}
+
+.dayOfWeekInput {
+    width: 30px;
+}
+
+
+.dateCounterWord {
+    margin: 0;
+    color: var(--font-color-black);
+}
+
+
+.headerMetaContainer {
+    margin: 0 5px 0 auto;
+}
+
+
+.button {
+    padding-inline: min(23px, 2.5vw);
+    padding-block: 5px;
+    font-size: calc(var(--diary-header-font-size) * 3 / 5);
+    font-weight: bold;
+    color: white;
+    background-color: var(--btn-bg-color);
+    border: none;
+    border-radius: 9px;
+    transition: filter .2s;
+}
+
+.button:hover {
+    filter: var(--hover-filter);
+}
+
+.button:active {
+    filter: var(--active-filter);
+}

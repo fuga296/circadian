@@ -1,0 +1,74 @@
+.metaInfoUnit {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+
+.metaInfoButton {
+    background-color: white;
+    border: none;
+}
+
+.metaInfoIcon {
+    width: 30px;
+    user-select: none;
+}
+
+
+.modal {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: min(450px, 53.5vw);
+    height: 200px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px -3px #777777;
+    transition: .2s;
+}
+
+@media (max-width: 768px) {
+    .modal {
+        width: max(380px, 60vw);
+    }
+}
+
+
+.metaInfoList {
+    list-style: none;
+    padding: 0;
+    margin-block: 10px;
+    margin-inline: 8px;
+}
+
+.metaInfoItems {
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.metaInfoName {
+    font-weight: bold;
+}
+
+.metaInfoValue {
+    text-align: right;
+    font-size: 14px;
+}
+
+
+.metaInfoValueButton {
+    width: 100%;
+    background-color: white;
+    border: none;
+    border-radius: 7px;
+    grid-column: 1 / 3;
+    transition: .3s;
+}
+
+.metaInfoValueButton:hover {
+    filter: var(--hover-filter);
+}
+
+.metaInfoValueButton:active {
+    filter: var(--active-filter);
+}

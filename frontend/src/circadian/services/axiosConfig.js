@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/',
-    // baseURL: 'https://circadian.onrender.com',
+    // baseURL: 'http://localhost:8000/',
+    baseURL: 'https://circadian.onrender.com',
     timeout: 10000,
     headers: {
         'Content-Type': 'application/json',
@@ -37,8 +37,8 @@ axiosInstance.interceptors.response.use(
             const refreshToken = localStorage.getItem('refresh_token');
             if (refreshToken) {
                 try {
-                    const response = await axios.post('http://localhost:8000/circadian/api/token/refresh/', {
-                    // const response = await axios.post('https://circadian.onrender.com/circadian/api/token/refresh/', {
+                    // const response = await axios.post('http://localhost:8000/circadian/api/token/refresh/', {
+                    const response = await axios.post('https://circadian.onrender.com/circadian/api/token/refresh/', {
                         refresh: refreshToken,
                     });
 

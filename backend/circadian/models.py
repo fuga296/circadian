@@ -1,11 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Group, Permission, PermissionsMixin
+from django.contrib.postgres.fields import ArrayField
 from django.core.validators import MinLengthValidator, EmailValidator
 from django.db import models
 import uuid
-import base64
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None):
+    def create_user(self, email, username, password):
         if not email:
             raise ValueError('ユーザーにはメールアドレスが必要です')
         if not username:
@@ -19,7 +19,14 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None):
+    def create_superuser(self, email, username, password):
+        if not email:
+            raise ValueError('ユーザーにはメールアドレスが必要です')
+        if not username:
+            raise ValueError('ユーザーにはユーザー名が必要です')
+        if not password:
+            raise ValueError('パスワードが必要です')
+
         user = self.create_user(email, username, password)
         user.is_admin = True
         user.is_superuser = True
@@ -28,13 +35,13 @@ class CustomUserManager(BaseUserManager):
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    username = models.CharField(max_length=64, unique=True, validators=[MinLengthValidator(3)])
-    email = models.EmailField(max_length=64, unique=True, validators=[EmailValidator()])
-    created_at = models.DateTimeField(auto_now_add=True)
+    user_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    username = models.CharField(max_length=63, unique=True, validators=[MinLengthValidator(3)])
+    email = models.EmailField(max_length=63, unique=True, validators=[EmailValidator()])
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
 
     groups = models.ManyToManyField(Group, related_name='custom_users', blank=True)
@@ -57,20 +64,39 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.username
 
 class Diary(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    diary_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='diaries')
-    date = models.DateField(db_index=True)
-    main_text = models.TextField(blank=True)
+    date = models.DateField()
+    text = models.TextField(blank=True)
     progress = models.TextField(blank=True)
     memo = models.TextField(blank=True)
-    todos = models.JSONField(default=list, blank=True)
-    files = models.JSONField(default=list, blank=True)
+    todos = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_names = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_types = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_urls = ArrayField(
+        models.URLField(max_length=255),
+        blank=True,
+        default=list,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     front_id = models.UUIDField(default=uuid.uuid4, editable=False)
 
     class Meta:
         indexes = [
+            models.Index(fields=['date']),
             models.Index(fields=['user', 'date']),
         ]
         unique_together = ('user', 'date')
@@ -81,48 +107,54 @@ class Diary(models.Model):
     def __str__(self):
         return f"{self.user.username}の日記 - {self.date}"
 
-    def generate_url_path(self):
-        return str(uuid.uuid4())
-
-    def save(self, *args, **kwargs):
-        if self.files:
-            for media in self.files:
-                if isinstance(media, dict) and 'url' not in media:
-                    media['url'] = self.generate_url_path()
-                if 'binaryData' in media and isinstance(media['binaryData'], bytes):
-                    media['binaryData'] = base64.b64encode(media['binaryData']).decode('utf-8')
-        super().save(*args, **kwargs)
-
 class History(models.Model):
-    TYPE_CHOICES = [
+    ACTION_CHOICES = [
         ('CREATE', 'Create'),
         ('EDIT', 'Edit'),
         ('DELETE', 'Delete'),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    history_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     diary = models.ForeignKey(Diary, on_delete=models.CASCADE, related_name='histories')
     timestamp = models.DateTimeField(auto_now_add=True)
-    type = models.CharField(max_length=10, choices=TYPE_CHOICES, default='CREATE')
-    main_text_diff = models.TextField(blank=True)
-    progress_diff = models.TextField(blank=True)
-    memo_diff = models.TextField(blank=True)
-    todos_diff = models.JSONField(default=list, blank=True)
-    files_diff = models.JSONField(default=list, blank=True)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES, default='CREATE')
+    text = models.TextField(blank=True)
+    progress = models.TextField(blank=True)
+    memo = models.TextField(blank=True)
+    todos = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_names = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_types = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
+    file_urls = ArrayField(
+        models.CharField(max_length=255),
+        blank=True,
+        default=list,
+    )
 
     class Meta:
         indexes = [
-            models.Index(fields=['diary']),
+            models.Index(fields=['timestamp']),
         ]
         ordering = ['-timestamp']
         verbose_name = 'history'
         verbose_name_plural = 'histories'
 
     def __str__(self):
-        return f"{self.diary.user.username} の {self.diary.date} の日記の履歴 - {self.timestamp}"
+        return f"{self.diary.user.username} の日記 - {self.diary.date} | {self.timestamp}"
 
 class Log(models.Model):
-    STATUS_CHOICES = [
+    ACTION_CHOICES = [
         ('VISIT', 'Visit'),
         ('LEAVE', 'Leave'),
         ('REGISTER', 'Register'),
@@ -130,21 +162,22 @@ class Log(models.Model):
         ('LOGOUT', 'Logout'),
     ]
 
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    timestamp = models.DateTimeField(auto_now_add=True, db_index=True)
+    log_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='logs')
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='VISIT')
+    timestamp = models.DateTimeField(auto_now_add=True)
+    action = models.CharField(max_length=10, choices=ACTION_CHOICES, default='VISIT')
     detail = models.URLField(blank=True, null=True)
     ip_address = models.GenericIPAddressField(null=True, blank=True)
+    device_info = models.CharField(max_length=255, default="")
 
     class Meta:
         indexes = [
-            models.Index(fields=['user']),
             models.Index(fields=['timestamp']),
             models.Index(fields=['user', 'timestamp']),
         ]
+        ordering = ['-timestamp']
         verbose_name = 'log'
         verbose_name_plural = 'logs'
 
     def __str__(self):
-        return f"{self.user.username} - {self.get_status_display()} at {self.timestamp}"
+        return f"{self.user.username} - {self.action} | {self.timestamp}"

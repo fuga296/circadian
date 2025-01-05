@@ -49,10 +49,14 @@ const Calendar = () => {
     return (
         <ContentLayout
             header={
-                <CalendarHeader
-                    date={date}
-                    handleChangeDate={handleChangeDate}
-                />
+                <>
+                    <CalendarHeader
+                        date={date}
+                        handleChangeDate={handleChangeDate}
+                    />
+                    {error && <p className="error">{error}</p>}
+                    {loading && <p>Loading...</p>}
+                </>
             }
 
             main={

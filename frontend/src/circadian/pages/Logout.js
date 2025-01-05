@@ -1,10 +1,12 @@
 import React from 'react';
 import LogoutComponent from '../components/Logout/LogoutComponent';
 import ContentLayout from '../components/layouts/ContentLayout';
+import { logout } from '../services/auth';
 
 const Logout = () => {
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
+        await logout();
     }
 
     return (
@@ -12,7 +14,7 @@ const Logout = () => {
             header={<></>}
             main={
                 <LogoutComponent
-                    handleLogout
+                    handleLogout={handleLogout}
                 />
             }
         />

@@ -29,6 +29,7 @@ const DiaryBlock =({ height, preDiary, handlers, isDisabled, isHistory, loading 
                 handleChangeSubText={handlers?.handleChangeSubText}
                 preDiary={preDiary}
                 isDisabled={isDisabled}
+                height={height}
             />
         </form>
     );

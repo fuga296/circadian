@@ -1,7 +1,8 @@
 .diaryBlock {
     display: grid;
-    grid-template-rows: 50px 60% 1fr;
+    grid-template-rows: 50px 60% calc(40% - 50px);
     width: 100%;
+    height: 650px;
     margin-bottom: 50px;
     border: 1px solid var(--border-color-gray);
     border-radius: 8px;

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import deleteImg from "../../assets/images/X.svg";
 import styles from "./SubTextContent.module.css";
 
-const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled }) => {
+const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, height }) => {
     const [subText, setSubText] = useState({
         progress: preDiary.progress,
         memo: preDiary.memo,
@@ -63,6 +63,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled }) => 
                 return (
                     <textarea
                         className={styles.textarea}
+                        style={{ height: `${parseFloat(height)*0.4 - 50}px` }}
                         name="progress"
                         value={subText.progress}
                         onChange={handleChangeTextarea}
@@ -74,6 +75,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled }) => 
                 return (
                     <textarea
                         className={styles.textarea}
+                        style={{ height: `${parseFloat(height)*0.4 - 50}px` }}
                         name="memo"
                         value={subText.memo}
                         onChange={handleChangeTextarea}
@@ -83,7 +85,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled }) => 
                 );
             case "TODO":
                 return (
-                    <div className={styles.todosContainer}>
+                    <div className={styles.todosContainer} style={{ height: `${parseFloat(height)*0.4 - 50}px` }}>
                         {!isDisabled && (
                             <div>
                                 <input type="text" ref={todoInputRef} className={styles.addTodo} />
@@ -110,7 +112,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled }) => 
                 );
             case "file":
                 return (
-                    <div className={styles.filesContainer}>
+                    <div className={styles.filesContainer} style={{ height: `${parseFloat(height)*0.4 - 50}px` }}>
                         {!isDisabled && <input type="file" multiple />}
                     </div>
                 );

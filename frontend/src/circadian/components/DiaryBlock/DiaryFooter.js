@@ -3,7 +3,7 @@ import SubTextSelection from "./SubTextSelection";
 import SubTextContent from "./SubTextContent";
 import styles from "./DiaryFooter.module.css";
 
-const DiaryFooter = ({ handleChangeSubText, preDiary, isDisabled }) => {
+const DiaryFooter = ({ handleChangeSubText, preDiary, height, isDisabled }) => {
     const [selectedSubText, setSelectedSubText] = useState("progress");
 
     const handleChangeSelection = (newSubText) => {
@@ -18,6 +18,7 @@ const DiaryFooter = ({ handleChangeSubText, preDiary, isDisabled }) => {
                 preDiary={preDiary}
                 type={selectedSubText}
                 isDisabled={isDisabled}
+                height={height}
             />
         </div>
     );

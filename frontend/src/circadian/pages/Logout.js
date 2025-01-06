@@ -7,7 +7,8 @@ const Logout = () => {
 
     const handleLogout = async () => {
         await logout();
-    }
+        window.location.reload();
+    };
 
     return (
         <ContentLayout

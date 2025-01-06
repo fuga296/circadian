@@ -28,7 +28,7 @@ const ProtectedRoute = ({ element }) => {
         return null
     }
 
-    return isAuthenticated ? element : <Navigate to="/circadian/authentication/login" />
+    return isAuthenticated ? element : <Navigate to="/circadian/auth/login" />
 };
 
 export default ProtectedRoute;

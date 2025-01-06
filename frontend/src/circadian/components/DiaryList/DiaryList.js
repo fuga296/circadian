@@ -12,7 +12,7 @@ const DiaryList = ({ children, sequenceNum, diaryDate, createAt }) => {
     });
 
     return (
-        <div className={styles.listItem} onClick={() => navigate(`/circadian/test/diary/${date.year}/${date.month}/${date.day}`)}>
+        <div className={styles.listItem} onClick={() => navigate(`/circadian/diary/${date.year}/${date.month}/${date.day}`)}>
             <div className={styles.sequenceNumContainer}>
                 No.{sequenceNum}
             </div>

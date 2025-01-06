@@ -17,7 +17,7 @@ const SideFoldableNav = ({isExpanded, isHidden, logo, appName, navSelectionLists
             onMouseLeave={onMouseLeave}
         >
 
-            <img src={logo} alt='logo' className={styles.navLogo} />
+            <img src={logo} alt='logo' className={styles.navLogo} onClick={() => navigate(`/${appName}/home`)} />
 
             {
                 navSelectionLists.map((navSelectionList, ulIndex) => (

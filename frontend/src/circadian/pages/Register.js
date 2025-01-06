@@ -24,7 +24,7 @@ const Register = () => {
             e.preventDefault();
             try {
                 await register(registerInfo);
-                navigate("/circadian/test/home");
+                navigate("/circadian/home");
             } catch (err) {
                 console.error("Register log error:", err);
                 setError("Failed to fetch diary. Please try again later.");

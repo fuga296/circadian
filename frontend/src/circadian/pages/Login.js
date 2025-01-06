@@ -22,7 +22,7 @@ const Login = () => {
             e.preventDefault();
             try {
                 await login(loginInfo);
-                navigate("/circadian/test/home");
+                navigate("/circadian/home");
             } catch (err) {
                 console.error("Login log error:", err);
                 setError("Failed to fetch diary. Please try again later.");

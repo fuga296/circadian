@@ -13,13 +13,31 @@ const Login = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [inputMessages, setInputMessages] = useState({
+        username: [],
+        password: [],
+    });
+
+    const validateInputs = () => {
+        const messages = {
+            username: loginInfo.username ? [] : ["文字を入力してください"],
+            password: loginInfo.password ? [] : ["文字を入力してください"],
+        };
+        setInputMessages(messages);
+        return Object.values(messages).every((msgs) => msgs.length === 0);
+    };
 
     const handlers = {
         handleSubmit: async (e) => {
+            e.preventDefault();
             setLoading(true);
             setError(null);
 
-            e.preventDefault();
+            if (!validateInputs()) {
+                setLoading(false);
+                return;
+            }
+
             try {
                 await login(loginInfo);
                 navigate("/circadian/home");
@@ -40,7 +58,14 @@ const Login = () => {
     };
 
     return (
-        <Authentication authInfo={loginInfo} handlers={handlers} isLogin={true} loading={loading} error={error} />
+        <Authentication
+            authInfo={loginInfo}
+            handlers={handlers}
+            isLogin={true}
+            loading={loading}
+            error={error}
+            inputMessages={inputMessages}
+        />
     );
 };
 

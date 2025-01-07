@@ -92,10 +92,10 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                                 <button type="button" className={styles.addTodoBtn} onClick={handleAddTodo}>追加</button>
                             </div>
                         )}
-                        <ul className={styles.todoList}>
+                        <ul className={styles.todoList} >
                             {subText.todos.map((TODO, index) => (
                                 <li key={index} className={styles.todoItem}>
-                                    {!isDisabled && (
+                                    {!isDisabled ? (
                                         <button
                                             type="button"
                                             className={styles.deleteTodoContainer}
@@ -103,7 +103,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                                         >
                                             <img src={deleteImg} alt="delete" className={styles.deleteTodo} />
                                         </button>
-                                    )}
+                                    ) : "・"}
                                     <span>{TODO}</span>
                                 </li>
                             ))}

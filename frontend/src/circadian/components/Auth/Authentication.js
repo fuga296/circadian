@@ -1,66 +1,78 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { AUTH_INPUT_FIELDS } from "../../constants/auth";
 import styles from "./Authentication.module.css";
+import InputField from "./InputField";
 
-const Authentication = ({ authInfo, handlers, isLogin, loading, error }) => {
+const Authentication = ({ authInfo, handlers, isLogin, loading, error, inputMessages }) => {
 
     return (
         <div className={styles.formWapper}>
             <form className={styles.form} onSubmit={handlers.handleSubmit}>
                 <h1>{isLogin ? "ログイン" : "新規登録"}</h1>
-                {error && <p>{error}</p>}
                 {loading && <p>Loading...</p>}
 
                 <div className={styles.inputContainer}>
-                    {AUTH_INPUT_FIELDS.map((field, index) => {
-                        if ((field.ristrict % 2 === 1) && isLogin) {
-                            return (
-                                <div className={styles.inputBlock} key={index}>
-                                    <label htmlFor={field.text.id}>{field.text.label}</label>
-                                    <input
-                                        type={field.type}
-                                        name={field.text.id}
-                                        id={field.text.id}
-                                        placeholder={field.text.placeholder}
-                                        value={authInfo[field.text.id]}
-                                        onChange={handlers.handleChangeAuthInfo}
-                                    />
-                                </div>
-                            )
-                        } else if (((field.ristrict >> 1) % 2 === 1) && !isLogin) {
-                            return (
-                                <div className={styles.inputBlock} key={index}>
-                                    <label htmlFor={field.text.id}>{field.text.label}</label>
-                                    <input
-                                        type={field.type}
-                                        name={field.text.id}
-                                        id={field.text.id}
-                                        placeholder={field.text.placeholder}
-                                        value={authInfo[field.text.id]}
-                                        onChange={handlers.handleChangeAuthInfo}
-                                    />
-                                </div>
-                            )
-                        }
-                        return null;
-                    })}
+                    <InputField
+                        label="ユーザーネーム"
+                        type="text"
+                        name="username"
+                        placeholder="Username"
+                        value={authInfo.username}
+                        onChange={handlers.handleChangeAuthInfo}
+                        messages={inputMessages.username}
+                    />
+                    {!isLogin && (
+                        <InputField
+                            label="メールアドレス"
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            value={authInfo.email}
+                            onChange={handlers.handleChangeAuthInfo}
+                            messages={inputMessages.email}
+                        />
+                    )}
+                    <InputField
+                        label="パスワード"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={authInfo.password}
+                        onChange={handlers.handleChangeAuthInfo}
+                        messages={inputMessages.password}
+                    />
+                    {!isLogin && (
+                        <InputField
+                            label="再パスワード"
+                            type="password"
+                            name="passwordAgain"
+                            placeholder="Password Again"
+                            value={authInfo.passwordAgain}
+                            onChange={handlers.handleChangeAuthInfo}
+                            messages={inputMessages.passwordAgain}
+                        />
+                    )}
 
-                        <div className={styles.btnContainer}>
-                            <div></div>
-                            <button type="submit">{isLogin ? "ログイン" : "新規登録"}</button>
-                        </div>
+                    <div className={styles.btnContainer}>
+                        {error && <p>{error}</p>}
+                        <button type="submit">{isLogin ? "ログイン" : "新規登録"}</button>
+                    </div>
                 </div>
 
                 <hr />
 
-                {
-                isLogin ? <div className={styles.toRegister}>新規登録は<Link to='/circadian/authentication/register'>こちら</Link></div> :
-                <div className={styles.toLogin}>ログインは<Link to='/circadian/authentication/login'>こちら</Link></div>
-            }
+                {isLogin ?(
+                    <div className={styles.toRegister}>
+                        新規登録は<Link to='/circadian/auth/register'>こちら</Link>
+                    </div>
+                ) :(
+                    <div className={styles.toLogin}>
+                        ログインは<Link to='/circadian/auth/login'>こちら</Link>
+                    </div>
+                )}
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default Authentication;

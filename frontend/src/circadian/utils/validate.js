@@ -3,38 +3,38 @@ export const validateDate = (date) => {
 };
 
 export const validateUsername = (name) => {
-    let errorBinary = 0;
+    let errorArray = [];
     if (name.length < 3 || 63 < name.length) {
-        errorBinary += 1;
+        errorArray.push("ユーザーネームは3字以上64字未満にしてください");
     };
     if (!/^[a-zA-Z0-9._-]+$/.test(name)) {
-        errorBinary += 2
+        errorArray.push("半角英数字、ドット、アンダースコア、ハイフン以外の文字を使わないでください")
     };
-    return errorBinary;
+    return errorArray;
 };
 
 export const validateEmail = (email) => {
-    let errorBinary = 0;
+    let errorArray = [];
     const emailPattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (!emailPattern.test(email)) {
-        errorBinary += 1;
+        errorArray.push("RFCの規格に従ったメールアドレスにしてください");
     };
-    return errorBinary;
+    return errorArray;
 };
 
 export const validatePassword = (password) => {
-    let errorBinary = 0;
+    let errorArray = [];
     if (password.length < 8 || 127 < password.length) {
-        errorBinary += 1;
+        errorArray.push("パスワードは8字以上128字未満でなければなりません");
     };
     if (!/[a-zA-Z]/.test(password)) {
-        errorBinary += 2;
+        errorArray.push("基本ラテン文字を一字以上用いてください");
     };
     if (!/\d/.test(password)) {
-        errorBinary += 4;
+        errorArray.push("数字を一字以上用いてください");
     };
-    if (!/^[a-zA-Z0-9!#$%&^~|@+*]+$/.match(password)) {
-        errorBinary += 8;
+    if (!/^[a-zA-Z0-9!#$%&^~|@+*]+$/.test(password)) {
+        errorArray.push("半角英数字、許可された記号(!#$%&^~|@+*)以外を用いないでください");
     };
-    return errorBinary;
+    return errorArray;
 };

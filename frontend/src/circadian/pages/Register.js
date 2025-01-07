@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Authentication from "../components/Auth/Authentication";
 import { register } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import { validateEmail, validatePassword, validateUsername } from "../utils/validate";
 
 const Register = () => {
 
@@ -15,13 +16,38 @@ const Register = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [inputMessages, setInputMessages] = useState({
+        username: [],
+        email: [],
+        password: [],
+        passwordAgain: [],
+    });
+
+    const validateInputs = () => {
+        const messages = {
+            username: validateUsername(registerInfo.username),
+            email: validateEmail(registerInfo.email),
+            password: validatePassword(registerInfo.password),
+            passwordAgain:
+                registerInfo.password !== registerInfo.passwordAgain
+                    ? ["パスワードが一致していません"]
+                    : [],
+        };
+        setInputMessages(messages);
+        return Object.values(messages).every((msgs) => msgs.length === 0);
+    };
 
     const handlers = {
         handleSubmit: async (e) => {
+            e.preventDefault();
             setLoading(true);
             setError(null);
 
-            e.preventDefault();
+            if (!validateInputs()) {
+                setLoading(false);
+                return;
+            };
+
             try {
                 await register(registerInfo);
                 navigate("/circadian/home");
@@ -42,7 +68,14 @@ const Register = () => {
     };
 
     return (
-        <Authentication authInfo={registerInfo} handlers={handlers} isRegister={false} loading={loading} error={error} />
+        <Authentication
+            authInfo={registerInfo}
+            handlers={handlers}
+            isRegister={false}
+            loading={loading}
+            error={error}
+            inputMessages={inputMessages}
+        />
     );
 };
 

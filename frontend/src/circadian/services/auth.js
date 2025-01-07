@@ -2,8 +2,6 @@ import { BASE_API_PATH } from '../config/apiConfig';
 import { createLog } from './api';
 import axiosInstance from './axiosConfig';
 
-// const BASE_API_PATH = 'https://circadian.onrender.com/circadian/api/';
-
 const logAuth = async (status) => {
     const userAgent = navigator.userAgent;
     try {
@@ -13,7 +11,7 @@ const logAuth = async (status) => {
             device_info: userAgent,
         });
     } catch (error) {
-        console.error("Login log error:", error);
+        console.error("log error:", error);
     }
 };
 

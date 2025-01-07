@@ -2,13 +2,15 @@ from rest_framework import status, generics, pagination
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from datetime import date
 from .serializers import UserSerializer, DiarySerializer, DiaryListSerializer, DiaryByMonthSerializer, HistorySerializer, LogSerializer
 from .models import Diary, History, Log
 
 # User
 class RegisterView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
 

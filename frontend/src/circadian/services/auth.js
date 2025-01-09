@@ -18,7 +18,6 @@ const logAuth = async (status) => {
 export const login = async (loginInfo) => {
     try {
         await logAuth('LOGIN');
-        console.log(loginInfo);
         const response = await axiosInstance.post(BASE_API_PATH + 'token/', {...loginInfo});
         if (response.data.access) {
             localStorage.setItem('access_token', response.data.access);

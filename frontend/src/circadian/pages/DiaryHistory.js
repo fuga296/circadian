@@ -6,22 +6,29 @@ import { useParams } from "react-router-dom";
 import { removeDuplicate } from "../utils/diary";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import DiaryBlock from "../components/DiaryBlock/DiaryBlock";
+import { updateState } from "../utils/universal";
 
 const DiaryHistory = () => {
 
     const { year, month, day } = useParams();
 
     const [diaryHistory, setDiaryHistory] = useState([]);
+    const [diaryHistoryState, setDiaryHistoryState] = useState({
+        isDisabled: true,
+        isHistory: true,
+        loading: false,
+        error: null,
+    });
     const [pageNumber, setPageNumber] = useState(1);
     const [isDiaryHistoryMax, setIsDiaryHistoryMax] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+
+    const handleUpdateDiaryHistoryState = updateState(setDiaryHistoryState);
 
     const fetchDiaryHistory = useCallback(async () => {
-        if (isDiaryHistoryMax || loading) return;
+        if (isDiaryHistoryMax || diaryHistoryState.loading) return;
 
-        setLoading(true);
-        setError(null);
+        handleUpdateDiaryHistoryState('loading', true);
+        handleUpdateDiaryHistoryState('error', null);
 
         try {
             const response = await getDiaryHistory(year, month, day, pageNumber);
@@ -35,9 +42,9 @@ const DiaryHistory = () => {
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
-            setError("Failed to fetch diary. Please try again later.");
+            handleUpdateDiaryHistoryState('error', "Failed to fetch diary. Please try again later.");
         } finally {
-            setLoading(false);
+            handleUpdateDiaryHistoryState('loading', false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [year, month, day, isDiaryHistoryMax, pageNumber]);
@@ -46,7 +53,7 @@ const DiaryHistory = () => {
         fetchDiaryHistory();
     }, [fetchDiaryHistory, pageNumber]);
 
-    useInfiniteScroll({ loading, isDiariesMax: isDiaryHistoryMax, incrementPageNumber: () => setPageNumber((prev) => prev + 1) });
+    useInfiniteScroll({ loading: diaryHistoryState.loading, isDiariesMax: isDiaryHistoryMax, incrementPageNumber: () => setPageNumber((prev) => prev + 1) });
 
     return (
         <ContentLayout
@@ -59,19 +66,16 @@ const DiaryHistory = () => {
                             message={`${diary.diary_date}の日記を${diary.action}しました`}
                             history={
                                 <DiaryBlock
-                                    height="500px"
-                                    preDiary={diary}
+                                    diaryInfo={diary}
                                     handlers={null}
+                                    diaryState={diaryHistoryState}
                                     key={index}
-                                    isDisabled={true}
-                                    isHistory={true}
-                                    loading={loading}
                                 />
                             }
                         />
                     ))}
-                    {loading && <div className="circle-spin-1"></div>}
-                    {error && <p className="error">{error}</p>}
+                    {diaryHistoryState.loading && <div className="circle-spin-1"></div>}
+                    {diaryHistoryState.error && <p className="error">{diaryHistoryState.error}</p>}
                 </>
             }
         />

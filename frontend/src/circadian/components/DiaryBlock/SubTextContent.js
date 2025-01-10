@@ -1,27 +1,30 @@
 import React, { useEffect, useRef, useState } from "react";
 import deleteImg from "../../assets/images/X.svg";
 import styles from "./SubTextContent.module.css";
+import { diaryBlockHeight } from "../../utils/diary";
 
-const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, height }) => {
+const SubTextContent = ({ handleChangeSubText, diaryInfo, diaryState, type }) => {
     const [subText, setSubText] = useState({
-        progress: preDiary.progress,
-        memo: preDiary.memo,
-        todos: preDiary.todos,
-        file_names: preDiary.file_names,
-        file_types: preDiary.file_types,
-        file_urls: preDiary.file_urls,
+        progress: diaryInfo.progress,
+        memo: diaryInfo.memo,
+        todos: diaryInfo.todos,
+        file_names: diaryInfo.file_names,
+        file_types: diaryInfo.file_types,
+        file_urls: diaryInfo.file_urls,
     });
+    const [height] = useState(`${diaryBlockHeight(diaryState.isHistory)*0.4 - 50}px`);
+    const [isDisabled] = useState(diaryState.isDisabled);
 
     useEffect(() => {
         setSubText({
-            progress: preDiary.progress,
-            memo: preDiary.memo,
-            todos: preDiary.todos,
-            file_names: preDiary.file_names,
-            file_types: preDiary.file_types,
-            file_urls: preDiary.file_urls,
+            progress: diaryInfo.progress,
+            memo: diaryInfo.memo,
+            todos: diaryInfo.todos,
+            file_names: diaryInfo.file_names,
+            file_types: diaryInfo.file_types,
+            file_urls: diaryInfo.file_urls,
         })
-    }, [preDiary.file_names, preDiary.file_types, preDiary.file_urls, preDiary.memo, preDiary.progress, preDiary.todos])
+    }, [diaryInfo.file_names, diaryInfo.file_types, diaryInfo.file_urls, diaryInfo.memo, diaryInfo.progress, diaryInfo.todos])
 
     const handleChangeTextarea = (e) => {
         setSubText((prev) => ({
@@ -63,7 +66,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                 return (
                     <textarea
                         className={styles.textarea}
-                        style={{ height: `${parseFloat(height)*0.4 - 50}px` }}
+                        style={{ height }}
                         name="progress"
                         value={subText.progress}
                         onChange={handleChangeTextarea}
@@ -75,7 +78,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                 return (
                     <textarea
                         className={styles.textarea}
-                        style={{ height: `${parseFloat(height)*0.4 - 50}px` }}
+                        style={{ height }}
                         name="memo"
                         value={subText.memo}
                         onChange={handleChangeTextarea}
@@ -85,7 +88,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                 );
             case "TODO":
                 return (
-                    <div className={styles.todosContainer} style={{ height: `${parseFloat(height)*0.4 - 50}px` }}>
+                    <div className={styles.todosContainer} style={{ height }}>
                         {!isDisabled && (
                             <div>
                                 <input type="text" ref={todoInputRef} className={styles.addTodo} />
@@ -112,7 +115,7 @@ const SubTextContent = ({ handleChangeSubText, preDiary, type, isDisabled, heigh
                 );
             case "file":
                 return (
-                    <div className={styles.filesContainer} style={{ height: `${parseFloat(height)*0.4 - 50}px` }}>
+                    <div className={styles.filesContainer} style={{ height }}>
                         {!isDisabled && <input type="file" multiple />}
                     </div>
                 );

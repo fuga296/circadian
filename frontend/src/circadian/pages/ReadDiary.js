@@ -4,20 +4,27 @@ import { getDiaryBlocks } from "../services/api";
 import { removeDuplicate } from "../utils/diary";
 import ContentLayout from "../components/layouts/ContentLayout";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import { updateState } from "../utils/universal";
 
 const ReadDiary = () => {
 
     const [diaries, setDiaries] = useState([]);
+    const [diaryState, setDiaryState] = useState({
+        isDisabled: true,
+        isHistory: false,
+        loading: false,
+        error: null,
+    });
     const [pageNumber, setPageNumber] = useState(1);
     const [isDiariesMax, setIsDiariesMax] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+
+    const handleUpdateDiaryState = updateState(setDiaryState);
 
     const fetchDiaries = useCallback(async () => {
-        if (isDiariesMax || loading) return;
+        if (isDiariesMax || diaryState.loading) return;
 
-        setLoading(true);
-        setError(null);
+        handleUpdateDiaryState('loading', true);
+        handleUpdateDiaryState('error', null);
 
         try {
             const response = await getDiaryBlocks(pageNumber);
@@ -31,9 +38,9 @@ const ReadDiary = () => {
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
-            setError("Failed to fetch diary. Please try again later.");
+            handleUpdateDiaryState('error', "Failed to fetch diary. Please try again later.");
         } finally {
-            setLoading(false);
+            handleUpdateDiaryState('loading', false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isDiariesMax, pageNumber])
@@ -42,7 +49,7 @@ const ReadDiary = () => {
         fetchDiaries();
     }, [pageNumber, fetchDiaries]);
 
-    useInfiniteScroll({ loading, isDiariesMax, incrementPageNumber: () => setPageNumber((prev) => prev + 1) });
+    useInfiniteScroll({ loading: diaryState.loading, isDiariesMax, incrementPageNumber: () => setPageNumber((prev) => prev + 1) });
 
     return (
         <ContentLayout
@@ -54,16 +61,14 @@ const ReadDiary = () => {
                 <>
                     {diaries.map((diary, index) => (
                         <DiaryBlock
-                            height="650px"
-                            preDiary={diary}
+                            diaryInfo={diary}
                             handlers={null}
+                            diaryState={diaryState}
                             key={index}
-                            isDisabled={true}
-                            loading={loading}
                         />
                     ))}
-                    {loading && <div className="circle-spin-1"></div>}
-                    {error && <p className="error">{error}</p>}
+                    {diaryState.loading && <div className="circle-spin-1"></div>}
+                    {diaryState.error && <p className="error">{diaryState.error}</p>}
                 </>
             }
         />

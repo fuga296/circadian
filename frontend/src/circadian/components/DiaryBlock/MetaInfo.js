@@ -4,12 +4,12 @@ import metaInfoIcon from "../../assets/images/info.svg";
 import styles from "./MetaInfo.module.css";
 import { useNavigate } from "react-router-dom";
 
-const MetaInfo = ({ metaInfoContents = [] }) => {
+const MetaInfo = ({ metaInfoContents = [], loading }) => {
     const navigate = useNavigate();
 
     const [isModalExpanded, setIsModalExpanded] = useState(false);
 
-    const toggleModal = () => setIsModalExpanded((prev) => !prev);
+    const toggleModal = () => setIsModalExpanded((prev) => loading ? prev : !prev);
 
     return (
         <div className={styles.metaInfoUnit}>

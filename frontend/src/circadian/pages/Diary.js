@@ -5,31 +5,38 @@ import { getDiary } from "../services/api";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../utils/date";
 import ContentLayout from "../components/layouts/ContentLayout";
+import { updateState } from "../utils/universal";
 
 const Diary = () => {
     const { year, month, day } = useParams();
 
     const [diary, setDiary] = useState({...nuetralDiary, date: formatDate(year, month, day)});
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [diaryState, setDiaryState] = useState({
+        isDisabled: true,
+        isHistory: false,
+        loading: false,
+        error: null,
+    });
+    const handleUpdateDiaryState = updateState(setDiaryState);
 
     const fetchDiary = useCallback(async () => {
-        setLoading(true);
-        setError(null);
+        handleUpdateDiaryState('loading', true);
+        handleUpdateDiaryState('error', null);
 
         try {
             const response = await getDiary(year, month, day);
             if (response?.data) {
                 setDiary({...response.data});
             } else {
-                setError("日記が存在しません");
+                handleUpdateDiaryState('error', "日記が存在しません");
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
-            setError("Failed to fetch diary. Please try again later.");
+            handleUpdateDiaryState('error', "Failed to fetch diary. Please try again later.");
         } finally {
-            setLoading(false);
+            handleUpdateDiaryState('loading', false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [year, month, day]);
 
     useEffect(() => {
@@ -40,19 +47,17 @@ const Diary = () => {
         <ContentLayout
             header={
                 <>
-                    {loading && <p>Loading...</p>}
+                    {diaryState.loading && <p>Loading...</p>}
                 </>
             }
 
             main={
                 <>
-                    {error ? <p>{error}</p> : (
+                    {diaryState.error ? <p>{diaryState.error}</p> : (
                         <DiaryBlock
-                            height="650px"
-                            preDiary={diary}
+                            diaryInfo={diary}
                             handlers={null}
-                            isDisabled={true}
-                            loading={loading}
+                            diaryState={diaryState}
                         />
                     )}
                 </>

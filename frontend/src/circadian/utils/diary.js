@@ -6,3 +6,7 @@ export const removeDuplicate = (array, flag) => {
         return true;
     });
 };
+
+export const diaryBlockHeight = (isHistory) => {
+    return isHistory ? 500 : 650;
+};

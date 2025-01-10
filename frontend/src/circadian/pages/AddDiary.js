@@ -4,6 +4,7 @@ import { createDiary, editDiary, getDiary } from "../services/api";
 import { formatDate } from "../utils/date";
 import { nuetralDiary } from "../constants/diary";
 import ContentLayout from "../components/layouts/ContentLayout";
+import { updateState } from "../utils/universal";
 
 const AddDiary = () => {
     const today = new Date();
@@ -11,13 +12,20 @@ const AddDiary = () => {
 
     const [date, setDate] = useState(formattedDate);
     const [diary, setDiary] = useState({...nuetralDiary, date: formattedDate});
+    const [diaryState, setDiaryState] = useState({
+        isDisabled: false,
+        isHistory: false,
+        loading: false,
+        error: null,
+    });
     const [isNewDiary, setIsNewDiary] = useState(true);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+
+    const handleUpdateDiaryState = updateState(setDiaryState);
 
     const fetchDiary = useCallback(async () => {
-        setLoading(true);
-        setError(null);
+        handleUpdateDiaryState('loading', true);
+        handleUpdateDiaryState('error', null);
+
         try {
             const [year, month, day] = date.split('-');
             const response = await getDiary(year, month, day);
@@ -30,10 +38,11 @@ const AddDiary = () => {
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
-            setError("Failed to fetch diary. Please try again later.");
+            handleUpdateDiaryState('error', "Failed to fetch diary. Please try again later.");
         } finally {
-            setLoading(false);
+            handleUpdateDiaryState('loading', false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [date]);
 
     useEffect(() => {
@@ -55,8 +64,10 @@ const AddDiary = () => {
 
         handleSubmit: async (event) => {
             event.preventDefault();
-            setLoading(true);
-            setError(null);
+
+            handleUpdateDiaryState('loading', true);
+            handleUpdateDiaryState('error', null);
+
             try {
                 if (isNewDiary) {
                     await createDiary(diary)
@@ -66,9 +77,9 @@ const AddDiary = () => {
                 }
             } catch (err) {
                 console.error("Error creating or epdating diary:", err);
-                setError("Failed to save diary. Please try again.");
+                handleUpdateDiaryState('error', "Failed to save diary. Please try again.");
             } finally {
-                setLoading(false);
+                handleUpdateDiaryState('loading', false);
                 window.location.reload();
             }
         },
@@ -78,19 +89,17 @@ const AddDiary = () => {
         <ContentLayout
             header={
                 <>
-                    {error && <p className="error">{error}</p>}
-                    {loading && <p>Loading...</p>}
+                    {diaryState.error && <p className="error">{diaryState.error}</p>}
+                    {diaryState.loading && <p>Loading...</p>}
                 </>
             }
 
             main={
                 <>
                     <DiaryBlock
-                        height="650px"
-                        preDiary={diary}
+                        diaryInfo={diary}
                         handlers={handlers}
-                        isDisabled={false}
-                        loading={loading}
+                        diaryState={diaryState}
                     />
                 </>
             }

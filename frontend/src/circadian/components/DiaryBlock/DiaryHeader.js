@@ -3,12 +3,13 @@ import MetaInfo from "./MetaInfo";
 import { formatDate, getDayOfWeek, getMonthMaxDays } from "../../utils/date";
 import styles from "./DiaryHeader.module.css";
 
-const DiaryHeader = ({ handleChangeDate, preDiary, isDisabled, isHistory, loading }) => {
+const DiaryHeader = ({ handleChangeDate, diaryInfo, diaryState }) => {
 
     const [date, setDate] = useState(() => {
-        const [year, month, day] = !isHistory ? preDiary.date.split('-') : preDiary.diary_date.split('-');
+        const [year, month, day] = !diaryState.isHistory ? diaryInfo.date.split('-') : diaryInfo.diary_date.split('-');
         return { year, month, day };
     });
+    const [isDisabled] = useState(diaryState.isDisabled);
 
     const handleChangeDateInput = (e) => {
         const { name, value } = e.target;
@@ -77,34 +78,36 @@ const DiaryHeader = ({ handleChangeDate, preDiary, isDisabled, isHistory, loadin
 
             <span className={styles.headerMetaContainer}>
                 {
-                    !isHistory && (isDisabled ? (
+                    !diaryState.isHistory && (isDisabled ? (
                         <MetaInfo
                             metaInfoContents={[
                                 {
                                     name: "連番",
-                                    value: preDiary.sequence_number
+                                    value: diaryInfo.sequence_number
                                 },
                                 {
                                     name: "ユーザー",
-                                    value: preDiary.username
+                                    value: diaryInfo.username
                                 },
                                 {
                                     name: "日付",
-                                    value: preDiary.date
+                                    value: diaryInfo.date
                                 },
                                 {
                                     name: "作成日",
-                                    value: preDiary.created_at
+                                    value: diaryInfo.created_at
                                 },
                                 {
                                     name: "最終編集日",
-                                    value: preDiary.updated_at
+                                    value: diaryInfo.updated_at
                                 },
                                 {
                                     name: "日記ID",
-                                    value: preDiary.front_id
+                                    value: diaryInfo.front_id
                                 },
-                        ]} />
+                            ]}
+                            loading={diaryState.loading}
+                        />
                     ) : <button className={styles.button}>保存</button>)
                 }
             </span>

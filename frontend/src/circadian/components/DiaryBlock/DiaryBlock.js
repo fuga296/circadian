@@ -5,31 +5,30 @@ import DiaryBody from "./DiaryBody";
 import DiaryFooter from "./DiaryFooter";
 
 import styles from "./DiaryBlock.module.css";
+import { diaryBlockHeight } from "../../utils/diary";
 
-const DiaryBlock =({ height, preDiary, handlers, isDisabled, isHistory, loading }) => {
+
+const DiaryBlock =({ diaryInfo, handlers, diaryState }) => {
     return (
         <form
             className={styles.diaryBlock}
-            style={{ height }}
+            style={{ height: `${diaryBlockHeight(diaryState.isHistory)}px` }}
             onSubmit={handlers?.handleSubmit}
         >
             <DiaryHeader
                 handleChangeDate={handlers?.handleChangeDate}
-                preDiary={preDiary}
-                isDisabled={isDisabled}
-                isHistory={isHistory}
-                loading={loading}
+                diaryInfo={diaryInfo}
+                diaryState={diaryState}
             />
             <DiaryBody
                 handleChangeText={handlers?.handleChangeText}
-                preText={preDiary.text}
-                isDisabled={isDisabled}
+                preText={diaryInfo.text}
+                isDisabled={diaryState.isDisabled}
             />
             <DiaryFooter
                 handleChangeSubText={handlers?.handleChangeSubText}
-                preDiary={preDiary}
-                isDisabled={isDisabled}
-                height={height}
+                diaryInfo={diaryInfo}
+                diaryState={diaryState}
             />
         </form>
     );

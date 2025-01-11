@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+
 import MetaInfo from "./MetaInfo";
+import LoadingCircle from "../../../components/LoadingCircle";
+
+import { META_INFO_CONTENTS } from "../../constants/diary";
 import { formatDate, getDayOfWeek, getMonthMaxDays } from "../../utils/date";
+
 import styles from "./DiaryHeader.module.css";
+
 
 const DiaryHeader = ({ handleChangeDate, diaryInfo, diaryState }) => {
 
@@ -80,35 +86,15 @@ const DiaryHeader = ({ handleChangeDate, diaryInfo, diaryState }) => {
                 {
                     !diaryState.isHistory && (isDisabled ? (
                         <MetaInfo
-                            metaInfoContents={[
-                                {
-                                    name: "連番",
-                                    value: diaryInfo.sequence_number
-                                },
-                                {
-                                    name: "ユーザー",
-                                    value: diaryInfo.username
-                                },
-                                {
-                                    name: "日付",
-                                    value: diaryInfo.date
-                                },
-                                {
-                                    name: "作成日",
-                                    value: diaryInfo.created_at
-                                },
-                                {
-                                    name: "最終編集日",
-                                    value: diaryInfo.updated_at
-                                },
-                                {
-                                    name: "日記ID",
-                                    value: diaryInfo.front_id
-                                },
-                            ]}
+                            diaryInfo={diaryInfo}
+                            metaInfoContents={META_INFO_CONTENTS}
                             loading={diaryState.loading}
                         />
-                    ) : <button className={styles.button}>保存</button>)
+                    ) : (
+                        <button className={`${styles.button} ${diaryState.loading && styles.loadingButton}`} disabled={diaryState.loading}>
+                            <LoadingCircle isLoading={diaryState.loading}>保存</LoadingCircle>
+                        </button>
+                    ))
                 }
             </span>
         </div>

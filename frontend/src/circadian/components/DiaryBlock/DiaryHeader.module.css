@@ -86,7 +86,7 @@
     font-size: calc(var(--diary-header-font-size) * 3 / 5);
     font-weight: bold;
     color: white;
-    background-color: var(--btn-bg-color);
+    background-color: var(--btn-bg-color-blue);
     border: none;
     border-radius: 9px;
     transition: filter .2s;
@@ -98,4 +98,8 @@
 
 .button:active {
     filter: var(--active-filter);
+}
+
+.button.loadingButton {
+    background-color: var(--btn-bg-color-gray);
 }

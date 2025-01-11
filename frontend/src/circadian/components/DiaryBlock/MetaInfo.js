@@ -1,15 +1,30 @@
 import React, { useState } from "react";
-import Modal from "../../../components/Modal";
-import metaInfoIcon from "../../assets/images/info.svg";
-import styles from "./MetaInfo.module.css";
 import { useNavigate } from "react-router-dom";
 
-const MetaInfo = ({ metaInfoContents = [], loading }) => {
+import Modal from "../../../components/Modal";
+
+import metaInfoIcon from "../../assets/images/info.svg";
+import { deleteDiary } from "../../services/api";
+
+import styles from "./MetaInfo.module.css";
+
+
+const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
     const navigate = useNavigate();
 
+    const [date] = useState({
+        year: diaryInfo.date.split('-')[0],
+        month: diaryInfo.date.split('-')[1],
+        day: diaryInfo.date.split('-')[2],
+    });
     const [isModalExpanded, setIsModalExpanded] = useState(false);
 
     const toggleModal = () => setIsModalExpanded((prev) => loading ? prev : !prev);
+
+    const handleDeleteDiary = async () => {
+        await deleteDiary(date.year, date.month, date.day);
+        window.location.reload();
+    };
 
     return (
         <div className={styles.metaInfoUnit}>
@@ -31,7 +46,7 @@ const MetaInfo = ({ metaInfoContents = [], loading }) => {
                     {metaInfoContents.map(({ name, value }, index) => (
                         <li key={index} className={styles.metaInfoItems}>
                             <span className={styles.metaInfoName}>{name}:</span>
-                            <span className={styles.metaInfoValue}>{value || "設定されていません"}</span>
+                            <span className={styles.metaInfoValue}>{diaryInfo[value] || "設定されていません"}</span>
                         </li>
                     ))}
                     <li className={styles.metaInfoItems}>
@@ -48,6 +63,7 @@ const MetaInfo = ({ metaInfoContents = [], loading }) => {
                         <button
                             type="button"
                             className={styles.metaInfoValueButton}
+                            onClick={handleDeleteDiary}
                         >この日記を削除する</button>
                     </li>
                 </ul>

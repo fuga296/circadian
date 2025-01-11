@@ -12,7 +12,8 @@
     --forcus-border-color-black: #151515;
     --forcus-border-color: #007bff;
 
-    --btn-bg-color: #337AB7;
+    --btn-bg-color-blue: #337AB7;
+    --btn-bg-color-gray: #adadad;
 
     --diary-header-font-size: min(28px, calc(2.5vw + 7px));
 }

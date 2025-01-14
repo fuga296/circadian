@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { APP_NAME } from '../../config/app';
 
 const ProtectedRoute = ({ element }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -28,7 +29,7 @@ const ProtectedRoute = ({ element }) => {
         return null
     }
 
-    return isAuthenticated ? element : <Navigate to="/circadian/auth/login" />
+    return isAuthenticated ? element : <Navigate to={`/${APP_NAME}/auth/login`} />
 };
 
 export default ProtectedRoute;

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Authentication from "../components/Auth/Authentication";
 import { login } from "../services/auth";
 import { useNavigate } from "react-router-dom";
+import { APP_NAME } from "../config/app";
 
 const Login = () => {
 
@@ -40,10 +41,18 @@ const Login = () => {
 
             try {
                 await login(loginInfo);
-                navigate("/circadian/home");
+                navigate(`/${APP_NAME}/home`);
             } catch (err) {
                 console.error("Login log error:", err);
-                setError("Failed to fetch diary. Please try again later.");
+                if (err.code === "ERR_NETWORK") {
+                    setError("ネットワークにつながっていません。");
+                } else if (err.code === "ERR_BAD_REQUEST") {
+                    setError("ユーザーが存在しません。");
+                } else if (err.code === "ECONNABORTED") {
+                    setError("時間を超過しました。");
+                } else {
+                    setError("エラーが発生しました。時間をおいてやり直してください。");
+                }
             } finally {
                 setLoading(false);
             }

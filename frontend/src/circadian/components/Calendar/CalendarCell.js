@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styles from "./CalendarCell.module.css";
 import { useNavigate } from "react-router-dom";
 import { formatDate } from "../../utils/date";
+import { APP_NAME } from "../../config/app";
 
 const CalendarCell = ({ date, todoList, isOtherMonth }) => {
     const today = new Date();
@@ -29,7 +30,7 @@ const CalendarCell = ({ date, todoList, isOtherMonth }) => {
                 }
                 ${isOtherMonth && styles.otherMonth}
             `}
-            onClick={() => navigate(`/circadian/diary/${date.replace(/-/g, '/')}`)}
+            onClick={() => navigate(`/${APP_NAME}/diary/${date.replace(/-/g, '/')}`)}
         >
                 <span className={`${styles.day} ${formatDate(nowDate.year, nowDate.month, nowDate.day) === date && styles.today}`}>
                     {day}

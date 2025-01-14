@@ -7,6 +7,7 @@ import metaInfoIcon from "../../assets/images/info.svg";
 import { deleteDiary } from "../../services/api";
 
 import styles from "./MetaInfo.module.css";
+import { APP_NAME } from "../../config/app";
 
 
 const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
@@ -55,7 +56,7 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
                             className={styles.metaInfoValueButton}
                             onClick={() => {
                                 const [year, month, day] = metaInfoContents[2].value.split('-');
-                                navigate(`/circadian/history/${year}/${month}/${day}`);
+                                navigate(`/${APP_NAME}/history/${year}/${month}/${day}`);
                             }}
                         >この日記の履歴を見る</button>
                     </li>

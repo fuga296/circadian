@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./DiaryList.module.css";
 import { useNavigate } from "react-router-dom";
+import { APP_NAME } from "../../config/app";
 
 const DiaryList = ({ children, sequenceNum, diaryDate, createAt }) => {
     const navigate = useNavigate();
@@ -12,7 +13,7 @@ const DiaryList = ({ children, sequenceNum, diaryDate, createAt }) => {
     });
 
     return (
-        <div className={styles.listItem} onClick={() => navigate(`/circadian/diary/${date.year}/${date.month}/${date.day}`)}>
+        <div className={styles.listItem} onClick={() => navigate(`/${APP_NAME}/diary/${date.year}/${date.month}/${date.day}`)}>
             <div className={styles.sequenceNumContainer}>
                 No.{sequenceNum}
             </div>

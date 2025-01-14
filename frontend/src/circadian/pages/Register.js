@@ -3,6 +3,7 @@ import Authentication from "../components/Auth/Authentication";
 import { register } from "../services/auth";
 import { useNavigate } from "react-router-dom";
 import { validateEmail, validatePassword, validateUsername } from "../utils/validate";
+import { APP_NAME } from "../config/app";
 
 const Register = () => {
 
@@ -50,7 +51,7 @@ const Register = () => {
 
             try {
                 await register(registerInfo);
-                navigate("/circadian/home");
+                navigate(`/${APP_NAME}/auth/login`);
             } catch (err) {
                 console.error("Register log error:", err);
                 setError("Failed to fetch diary. Please try again later.");

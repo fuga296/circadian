@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styles from "./Authentication.module.css";
 import InputField from "./InputField";
+import { APP_NAME } from "../../config/app";
 
 const Authentication = ({ authInfo, handlers, isLogin, loading, error, inputMessages }) => {
 
@@ -63,11 +64,11 @@ const Authentication = ({ authInfo, handlers, isLogin, loading, error, inputMess
 
                 {isLogin ?(
                     <div className={styles.toRegister}>
-                        新規登録は<Link to='/circadian/auth/register'>こちら</Link>
+                        新規登録は<Link to={`/${APP_NAME}/auth/register`}>こちら</Link>
                     </div>
                 ) :(
                     <div className={styles.toLogin}>
-                        ログインは<Link to='/circadian/auth/login'>こちら</Link>
+                        ログインは<Link to={`/${APP_NAME}/auth/login`}>こちら</Link>
                     </div>
                 )}
             </form>

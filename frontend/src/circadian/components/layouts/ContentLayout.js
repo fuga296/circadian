@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ContentLayout.module.css";
 
-const ContentLayout = ({ header, main }) => {
+const ContentLayout = ({ header, main, footer }) => {
     return (
         <>
             <header className={styles.header}>
@@ -10,6 +10,11 @@ const ContentLayout = ({ header, main }) => {
             <main className={styles.main}>
                 {main}
             </main>
+            {footer && (
+                <footer>
+                    {footer}
+                </footer>
+            )}
         </>
     );
 };

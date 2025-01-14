@@ -6,7 +6,7 @@
 
 .contentContainer {
     display: grid;
-    grid-template-rows: 150px 1fr;
+    grid-template-rows: 150px 1fr auto;
     grid-column: 2;
 }
 

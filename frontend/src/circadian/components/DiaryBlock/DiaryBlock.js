@@ -1,11 +1,12 @@
 import React from "react";
 
-import DiaryHeader from "./DiaryHeader";
 import DiaryBody from "./DiaryBody";
 import DiaryFooter from "./DiaryFooter";
+import DiaryHeader from "./DiaryHeader";
+
+import { diaryBlockHeight } from "../../utils/diary";
 
 import styles from "./DiaryBlock.module.css";
-import { diaryBlockHeight } from "../../utils/diary";
 
 
 const DiaryBlock =({ diaryInfo, handlers, diaryState }) => {

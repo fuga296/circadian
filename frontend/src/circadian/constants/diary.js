@@ -15,7 +15,7 @@ export const SUB_TEXT_SELECTIONS = [
         type: "file",
         name: "ファイル",
     },
-]
+];
 
 export const nuetralDiary = {
     username: "",
@@ -32,3 +32,30 @@ export const nuetralDiary = {
     updated_at: "",
     front_id: "",
 };
+
+export const META_INFO_CONTENTS = [
+    {
+        name: "連番",
+        value: "sequence_number",
+    },
+    {
+        name: "ユーザー",
+        value: "username",
+    },
+    {
+        name: "日付",
+        value: "date",
+    },
+    {
+        name: "作成日",
+        value: "created_at",
+    },
+    {
+        name: "最終編集日",
+        value: "updated_at",
+    },
+    {
+        name: "日記ID",
+        value: "front_id",
+    },
+];

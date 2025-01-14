@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import styles from "./DiaryBody.module.css";
+
 
 const DiaryBody = ({ handleChangeText, preText, isDisabled }) => {
     const [text, setText] = useState(preText);

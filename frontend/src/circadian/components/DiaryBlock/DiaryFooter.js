@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import SubTextSelection from "./SubTextSelection";
+
 import SubTextContent from "./SubTextContent";
+import SubTextSelection from "./SubTextSelection";
+
 import styles from "./DiaryFooter.module.css";
+
 
 const DiaryFooter = ({ handleChangeSubText, diaryInfo, diaryState }) => {
     const [selectedSubText, setSelectedSubText] = useState("progress");

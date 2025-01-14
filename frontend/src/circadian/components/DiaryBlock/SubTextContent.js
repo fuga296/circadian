@@ -1,7 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import deleteImg from "../../assets/images/X.svg";
-import styles from "./SubTextContent.module.css";
 import { diaryBlockHeight } from "../../utils/diary";
+
+import styles from "./SubTextContent.module.css";
+
 
 const SubTextContent = ({ handleChangeSubText, diaryInfo, diaryState, type }) => {
     const [subText, setSubText] = useState({

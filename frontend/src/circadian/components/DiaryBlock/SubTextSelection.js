@@ -1,5 +1,7 @@
 import React, { useEffect, useId, useState } from "react";
+
 import { SUB_TEXT_SELECTIONS } from "../../constants/diary";
+
 import styles from "./SubTextSelection.module.css";
 
 

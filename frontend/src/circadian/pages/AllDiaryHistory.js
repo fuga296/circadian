@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import History from "../components/History/History";
 import { getAllDiaryHistory } from "../services/api";
 import { removeDuplicate } from "../utils/diary";

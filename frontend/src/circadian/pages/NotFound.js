@@ -1,5 +1,5 @@
 import React from "react";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 
 const NotFound = () => {
     return (

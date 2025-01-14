@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import CalendarComponent from "../components/Calendar/CalendarComponent";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import CalendarHeader from "../components/Calendar/CalendarHeader";
 import { getDiariesByMonth } from "../services/api";
 

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import SettingComponent from "../components/Setting/SettingComponent";
 import { getUserInfo, updateUserInfo } from "../services/api";
 

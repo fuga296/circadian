@@ -3,7 +3,7 @@ import DiaryBlock from "../components/DiaryBlock/DiaryBlock";
 import { createDiary, editDiary, getDiary } from "../services/api";
 import { formatDate } from "../utils/date";
 import { nuetralDiary } from "../constants/diary";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import { updateState } from "../utils/universal";
 
 const AddDiary = () => {

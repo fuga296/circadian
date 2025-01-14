@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getDiaryList } from "../services/api";
 import { removeDuplicate } from "../utils/diary";
 import DiaryList from "../components/DiaryList/DiaryList";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const ReadList = () => {

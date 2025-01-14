@@ -1,6 +1,6 @@
 import React from 'react';
 import LogoutComponent from '../components/Logout/LogoutComponent';
-import ContentLayout from '../components/layouts/ContentLayout';
+import ContentLayout from '../components/Layouts/ContentLayout';
 import { logout } from '../services/auth';
 
 const Logout = () => {

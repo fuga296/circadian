@@ -4,7 +4,7 @@ import { nuetralDiary } from "../constants/diary";
 import { getDiary } from "../services/api";
 import { useParams } from "react-router-dom";
 import { formatDate } from "../utils/date";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
 import { updateState } from "../utils/universal";
 
 const Diary = () => {

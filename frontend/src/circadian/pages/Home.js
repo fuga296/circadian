@@ -1,5 +1,6 @@
 import React from "react";
-import ContentLayout from "../components/layouts/ContentLayout";
+import ContentLayout from "../components/Layouts/ContentLayout";
+import Modal from "../../components/Modal";
 
 const Home = () => {
     return (
@@ -7,7 +8,7 @@ const Home = () => {
             header={<h1>ホーム</h1>}
             main={
                 <div>
-                    メインです。
+                    <Modal>メインです。</Modal>
                 </div>
             }
         />

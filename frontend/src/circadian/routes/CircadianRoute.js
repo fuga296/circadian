@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from 'react-router-dom';
-import PageLayout from "../components/layouts/PageLayout";
+import PageLayout from "../components/Layouts/PageLayout";
 import AddDiary from "../pages/AddDiary";
 import ReadDiary from "../pages/ReadDiary";
 import Diary from "../pages/Diary";

@@ -8,6 +8,7 @@ import { deleteDiary } from "../../services/api";
 
 import styles from "./MetaInfo.module.css";
 import { APP_NAME } from "../../config/app";
+import Modal from "../../../components/Modal";
 
 
 const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
@@ -18,6 +19,7 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
         month: diaryInfo.date.split('-')[1],
         day: diaryInfo.date.split('-')[2],
     });
+    const [isOpenModal, setIsOpenModal] = useState(false);
 
     const handleDeleteDiary = async () => {
         await deleteDiary(date.year, date.month, date.day);
@@ -57,7 +59,7 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
                             <button
                                 type="button"
                                 className={styles.metaInfoValueButton}
-                                onClick={handleDeleteDiary}
+                                onClick={() => setIsOpenModal(true)}
                             >この日記を削除する</button>
                         </li>
                     </ul>
@@ -68,6 +70,17 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
 
                 disableFlag={loading}
             />
+
+            {isOpenModal && (
+                <Modal
+                    message={
+                        <p>本当に削除しますか？</p>
+                    }
+                    buttonLabel={"削除する"}
+                    handleExecute={handleDeleteDiary}
+                    handleClose={() => setIsOpenModal(false)}
+                />
+            )}
         </div>
     );
 };

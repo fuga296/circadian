@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import Dropdown from "../../../components/Modal";
+import Dropdown from "../../../components/Dropdown";
 
 import metaInfoIcon from "../../assets/images/info.svg";
 import { deleteDiary } from "../../services/api";
@@ -18,9 +18,6 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
         month: diaryInfo.date.split('-')[1],
         day: diaryInfo.date.split('-')[2],
     });
-    const [isModalExpanded, setIsModalExpanded] = useState(false);
-
-    const toggleModal = () => setIsModalExpanded((prev) => loading ? prev : !prev);
 
     const handleDeleteDiary = async () => {
         await deleteDiary(date.year, date.month, date.day);
@@ -67,8 +64,9 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
                 }
 
                 buttonClassName={styles.metaInfoButton}
-
                 contentClassName={styles.metaInfoBlock}
+
+                disableFlag={loading}
             />
         </div>
     );

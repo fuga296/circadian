@@ -1,0 +1,66 @@
+.modalBackground {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 101;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 101;
+    width: 400px;
+    border-radius: 20px;
+    padding: 10px 20px;
+    background-color: white;
+    display: grid;
+    grid-template-rows: 1fr 60px;
+}
+
+
+.message {
+    padding-block: 10px 30px;
+}
+
+
+.buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    border-top: .6px solid #1a1a1a;
+}
+
+.buttons > button {
+    font-size: 14px;
+    padding: 8px 14px;
+    font-weight: bold;
+    border-radius: 9999px;
+    transition: .2s;
+}
+
+.buttons > button:hover {
+    filter: var(--hover-filter);
+}
+
+.buttons > button:active {
+    filter: var(--active-filter);
+}
+
+.cancelButton {
+    color: var(--font-color-black);
+    background-color: white;
+    border: 1px solid #333333;
+}
+
+.executeButton {
+    color: white;
+    background-color: #ff3a2f;
+    border: none;
+}

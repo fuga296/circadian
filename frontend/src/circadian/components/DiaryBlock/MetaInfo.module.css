@@ -5,6 +5,7 @@
 }
 
 
+
 .metaInfoButton {
     background-color: white;
     border: none;
@@ -15,20 +16,21 @@
     user-select: none;
 }
 
-
-.modal {
+.metaInfoBlock {
     position: absolute;
     top: 50px;
     right: 0;
     width: min(450px, 53.5vw);
     height: 200px;
+    background-color: white;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0px 0px 20px -3px #777777;
     transition: .2s;
 }
 
 @media (max-width: 768px) {
-    .modal {
+    .metaInfoBlock {
         width: max(380px, 60vw);
     }
 }

@@ -3,14 +3,16 @@
     --active-filter: brightness(0.8);
 
     --nav-slide-width: max(15vw, 160px);
-    --font-color-light-black: #333333;
-    --font-color-black: #1b1b1b;
+    --font-color-black: #333333;
+    --font-color-gray: #666666;
 
     --border-color-black: #171717;
     --border-color-gray: #ccc;
 
     --forcus-border-color-black: #151515;
     --forcus-border-color: #007bff;
+
+    --bg-color-red: #ff3a2f;
 
     --btn-bg-color-blue: #337AB7;
     --btn-bg-color-gray: #adadad;

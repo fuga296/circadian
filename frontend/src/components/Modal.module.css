@@ -14,7 +14,7 @@
     left: 50%;
     transform: translateX(-50%) translateY(-50%);
     z-index: 101;
-    width: 400px;
+    width: min(500px, 85vw);
     border-radius: 20px;
     padding: 10px 20px;
     background-color: white;
@@ -34,7 +34,7 @@
     align-content: center;
     flex-wrap: wrap;
     gap: 15px;
-    border-top: .6px solid #1a1a1a;
+    border-top: .8px solid var(--forcus-border-color-black);
 }
 
 .buttons > button {
@@ -42,7 +42,7 @@
     padding: 8px 14px;
     font-weight: bold;
     border-radius: 9999px;
-    transition: .2s;
+    transition: filter .2s;
 }
 
 .buttons > button:hover {
@@ -56,11 +56,11 @@
 .cancelButton {
     color: var(--font-color-black);
     background-color: white;
-    border: 1px solid #333333;
+    border: 1px solid var(--forcus-border-color-black);
 }
 
 .executeButton {
     color: white;
-    background-color: #ff3a2f;
+    background-color: var(--bg-color-red);
     border: none;
 }

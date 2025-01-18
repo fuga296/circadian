@@ -44,8 +44,14 @@
     transition: background-color .2s, width .2s;
 }
 
-.navSupporter.expandedNavContainer {
+.navSupporter.expandedNavSupporter {
     width: 100vw;
     background-color: rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(.5px);
+}
+
+.navSupporter.hiddenNavSupporter {
+    width: 0;
+    background: none;
+    backdrop-filter: none;
 }

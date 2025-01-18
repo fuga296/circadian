@@ -47,7 +47,7 @@ const Navigator = ({ onNavExpandChange, isBigScreen, setIsBigScreen }) => {
             </div>
 
             <div
-                className={`${styles.navSupporter} ${!isBigScreen && isNavExpanded && styles.expandedNavContainer}`}
+                className={`${styles.navSupporter} ${!isBigScreen && (isNavExpanded ? styles.expandedNavSupporter : styles.hiddenNavSupporter)}`}
                 onMouseEnter={isBigScreen ? showNav : undefined}
                 onMouseLeave={isBigScreen ? hideNav : undefined}
                 onClick={!isBigScreen && isNavExpanded ? toggleNavExpansion : undefined}

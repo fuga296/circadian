@@ -3,8 +3,10 @@
     align-items: flex-end;
     position: relative;
     grid-row: 1;
+    color: var(--font-color-black);
 }
 
 .main {
     grid-row: 2;
+    color: var(--font-color-black);
 }

@@ -10,7 +10,7 @@ urlpatterns = [
     path('diary/<int:year>-<int:month>/', DiariesByMonthListView.as_view(), name="get_diaries_by_month"),
     path('diary/blocks/', DiaryBlocksListView.as_view(), name="get_diary_blocks"),
     path('diary/list', DiaryListListView.as_view(), name="get_diary_list"),
-    path('diary/existence', DiariesExistenceListView.as_view(), name="get_diary_existence_list"),
+    path('diary/existence/', DiariesExistenceListView.as_view(), name="get_diary_existence_list"),
 
     path('history/create/', DiaryHistoryCreateView.as_view(), name='create_history'),
     path('history/<int:year>-<int:month>-<int:day>/', DiaryHistoryListView.as_view(), name='get_diary_history'),

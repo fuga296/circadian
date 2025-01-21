@@ -1,11 +1,11 @@
 import React from "react";
-import { DiariesProvider } from "./diariesContext";
-import { DiariesExistenceProvider } from "./diariesExistenceContext";
-import { UserInfoProvider } from "./userInfoContext";
+import { DiariesProvider } from "./DiariesContext";
+import { DiariesExistenceProvider } from "./DiariesExistenceContext";
+import { UserInfoProvider } from "./UserInfoContext";
 
 const providers = [DiariesProvider, DiariesExistenceProvider, UserInfoProvider];
 
-const ContentProvider = ({ children }) => {
+const ContentProviders = ({ children }) => {
     return providers.reduce(
         (AccumulatedProviders, CurrentProvider) => (
             <CurrentProvider>{AccumulatedProviders}</CurrentProvider>
@@ -14,4 +14,4 @@ const ContentProvider = ({ children }) => {
     );
 };
 
-export default ContentProvider;
+export default ContentProviders;

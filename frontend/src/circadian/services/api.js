@@ -64,6 +64,11 @@ export const getDiariesByMonth = async (year, month) => {
     return response;
 };
 
+export const getDiariesExistence = async () => {
+    const response = await axiosInstance.get(BASE_API_PATH + 'diary/existence/');
+    return response;
+}
+
 
 export const createDiaryHistory = async diaryHistory => {
     await axiosInstance.post(

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from datetime import date
-from .serializers import UserSerializer, DiarySerializer, DiaryListSerializer, DiaryByMonthSerializer, HistorySerializer, LogSerializer
+from .serializers import UserSerializer, DiarySerializer, DiaryListSerializer, DiaryByMonthSerializer, DiaryExistenceSerializer, HistorySerializer, LogSerializer
 from .models import Diary, History, Log
 
 # User
@@ -167,6 +167,16 @@ class DiariesByMonthListView(generics.ListAPIView):
 
         except ValueError as e:
             raise NotFound("Invalid date")
+        except Exception as e:
+            raise NotFound(f"An unexpected error occurred: {str(e)}")
+
+class DiariesExistenceListView(generics.ListAPIView):
+    serializer_class = DiaryExistenceSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        try:
+            return Diary.objects.filter(user=self.request.user).only('date')
         except Exception as e:
             raise NotFound(f"An unexpected error occurred: {str(e)}")
 

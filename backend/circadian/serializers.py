@@ -117,6 +117,11 @@ class DiaryByMonthSerializer(serializers.ModelSerializer):
         model = Diary
         fields = ['date', 'todos']
 
+class DiaryExistenceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diary
+        fields = ['date']
+
 class HistorySerializer(serializers.ModelSerializer):
     diary_date = serializers.SerializerMethodField()
 

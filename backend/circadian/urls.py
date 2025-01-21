@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import RegisterView, UserRetrieveUpdateView, DiaryCreateView, DiaryRetrieveUpdateDestroyView, DiaryBlocksListView, DiaryListListView, DiariesByMonthListView, DiaryHistoryListView, AllDiaryHistoryListView, DiaryHistoryCreateView, LogCreateView, ProtectedView
+from .views import RegisterView, UserRetrieveUpdateView, DiaryCreateView, DiaryRetrieveUpdateDestroyView, DiaryBlocksListView, DiaryListListView, DiariesByMonthListView, DiariesExistenceListView, DiaryHistoryListView, AllDiaryHistoryListView, DiaryHistoryCreateView, LogCreateView, ProtectedView
 
 urlpatterns = [
     path('user/', UserRetrieveUpdateView.as_view(), name="get_update_user"),
@@ -10,6 +10,7 @@ urlpatterns = [
     path('diary/<int:year>-<int:month>/', DiariesByMonthListView.as_view(), name="get_diaries_by_month"),
     path('diary/blocks/', DiaryBlocksListView.as_view(), name="get_diary_blocks"),
     path('diary/list', DiaryListListView.as_view(), name="get_diary_list"),
+    path('diary/existence', DiariesExistenceListView.as_view(), name="get_diary_existence_list"),
 
     path('history/create/', DiaryHistoryCreateView.as_view(), name='create_history'),
     path('history/<int:year>-<int:month>-<int:day>/', DiaryHistoryListView.as_view(), name='get_diary_history'),

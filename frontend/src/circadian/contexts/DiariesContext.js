@@ -2,7 +2,10 @@ import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { getDiaryBlocks } from '../services/api';
 import { removeDuplicate } from '../utils/diary';
 
-export const diariesContext = createContext();
+export const DiariesContext = createContext({
+    diaries: null,
+    setDiaries: () => {},
+});
 
 export const DiariesProvider = ({ children }) => {
     const [diaries, setDiaries] = useState([]);
@@ -29,8 +32,8 @@ export const DiariesProvider = ({ children }) => {
     }, [fetchDiaries])
 
     return (
-        <diariesContext.Provider value={{ diaries, setDiaries }}>
+        <DiariesContext.Provider value={{ diaries, setDiaries }}>
             {children}
-        </diariesContext.Provider>
+        </DiariesContext.Provider>
     );
 };

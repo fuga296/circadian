@@ -1,14 +1,15 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import DiaryBlock from "../components/DiaryBlock/DiaryBlock";
 import { getDiaryBlocks } from "../services/api";
 import { removeDuplicate } from "../utils/diary";
 import ContentLayout from "../components/Layouts/ContentLayout";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { updateState } from "../utils/universal";
+import { DiariesContext } from "../contexts/DiariesContext";
 
 const ReadDiary = () => {
 
-    const [diaries, setDiaries] = useState([]);
+    const { diaries, setDiaries } = useContext(DiariesContext);
     const [diaryState, setDiaryState] = useState({
         isDisabled: true,
         isHistory: false,

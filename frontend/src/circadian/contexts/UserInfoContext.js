@@ -1,7 +1,10 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { getUserInfo } from '../services/api';
 
-export const userInfoContext = createContext();
+export const UserInfoContext = createContext({
+    userInfo: null,
+    setUserInfo: () => {},
+});
 
 export const UserInfoProvider = ({ children }) => {
     const [userInfo, setUserInfo] = useState({
@@ -13,9 +16,10 @@ export const UserInfoProvider = ({ children }) => {
         try {
             const response = await getUserInfo();
             if (response?.data) {
-                setUserInfo({ ...response.data });
+                const { username, email } = response.data;
+                setUserInfo({ username, email });
             } else {
-                // setUserInfo({});
+                setUserInfo(prev => ({ ...prev }));
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
@@ -31,8 +35,8 @@ export const UserInfoProvider = ({ children }) => {
 
 
     return (
-        <userInfoContext.Provider value={{ userInfo, setUserInfo }}>
+        <UserInfoContext.Provider value={{ userInfo, setUserInfo }}>
             {children}
-        </userInfoContext.Provider>
+        </UserInfoContext.Provider>
     );
 };

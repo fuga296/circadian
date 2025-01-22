@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import Navigator from "../Navigator/Navigator";
 import styles from "./PageLayout.module.css";
 import ProtectedRoute from "./ProtectedRoute";
+import ContentProviders from "../../contexts/ContentProviders";
 
 const PageLayout = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false);
@@ -16,7 +17,9 @@ const PageLayout = () => {
         <div className={styles.pageContainer} style={{ marginLeft: isNavExpanded && isBigScreen ?  "var(--nav-slide-width)" : "0" }}>
             <Navigator onNavExpandChange={onNavExpandChange} isBigScreen={isBigScreen} setIsBigScreen={setIsBigScreen} />
             <div className={styles.contentContainer}>
-                <ProtectedRoute element={<Outlet />} />
+                <ContentProviders>
+                    <ProtectedRoute element={<Outlet />} />
+                </ContentProviders>
             </div>
         </div>
     )

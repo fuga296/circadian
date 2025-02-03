@@ -1,14 +1,23 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import ContentLayout from "../components/Layouts/ContentLayout";
 import DiaryBlock from "../components/DiaryBlock/DiaryBlock";
+
+import { DiariesContext } from "../contexts/DiariesContext";
+
 import { nuetralDiary } from "../constants/diary";
 import { getDiary } from "../services/api";
-import { useParams } from "react-router-dom";
 import { formatDate } from "../utils/date";
-import ContentLayout from "../components/Layouts/ContentLayout";
+import { removeDuplicate, sortDiaries } from "../utils/diary";
 import { updateState } from "../utils/universal";
 
+
 const Diary = () => {
+
     const { year, month, day } = useParams();
+
+    const { diaries, setDiaries } = useContext(DiariesContext);
 
     const [diary, setDiary] = useState({...nuetralDiary, date: formatDate(year, month, day)});
     const [diaryState, setDiaryState] = useState({
@@ -17,6 +26,8 @@ const Diary = () => {
         loading: false,
         error: null,
     });
+
+
     const handleUpdateDiaryState = updateState(setDiaryState);
 
     const fetchDiary = useCallback(async () => {
@@ -27,6 +38,7 @@ const Diary = () => {
             const response = await getDiary(year, month, day);
             if (response?.data) {
                 setDiary({...response.data});
+                setDiaries(prev =>  sortDiaries(removeDuplicate([...prev, response.data], "date")));
             } else {
                 handleUpdateDiaryState('error', "日記が存在しません");
             }
@@ -40,8 +52,14 @@ const Diary = () => {
     }, [year, month, day]);
 
     useEffect(() => {
-        fetchDiary();
-    }, [fetchDiary]);
+        const diaryExistsAlready = diaries.find((diary) => diary.date === formatDate(year, month, day));
+        if (diaryExistsAlready) {
+            setDiary(diaryExistsAlready);
+        } else {
+            fetchDiary();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [fetchDiary, day, month, year, setDiaries]);
 
     return (
         <ContentLayout

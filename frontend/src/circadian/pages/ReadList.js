@@ -7,9 +7,10 @@ import { DiariesContext } from "../contexts/DiariesContext";
 import { DiariesExistenceContext } from "../contexts/DiariesExistenceContext";
 
 import { getDiaryList } from "../services/api";
-import { removeDuplicate } from "../utils/diary";
+import { removeDuplicate, sortDiaries } from "../utils/diary";
 
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+
 
 const ReadList = () => {
 
@@ -55,7 +56,7 @@ const ReadList = () => {
             };
         };
 
-        setDiaryList(prev => filterDiaryListInfo(removeDuplicate([...prev, ...diaries]), "date"));
+        setDiaryList(prev => removeDuplicate([...prev, ...filterDiaryListInfo(diaries)], "date"));
         setPageNumber(Math.floor(diariesExistence / pageSize) + 1);
         setIsDiariesMax(true);
     }, [diaries, pageNumber, diariesExistence, setDiaryList]);
@@ -106,7 +107,7 @@ const ReadList = () => {
 
             main={
                 <>
-                    {diaryList.map((diary, index) => {
+                    {sortDiaries(diaryList).map((diary, index) => {
                         return(
                         <DiaryList
                             sequenceNum={diary.sequence_number}

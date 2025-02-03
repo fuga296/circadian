@@ -7,6 +7,12 @@ export const removeDuplicate = (array, flag) => {
     });
 };
 
+export const sortDiaries = diaries => {
+    const result = diaries;
+    result.sort((a, b) => b.date.localeCompare(a.date));
+    return result;
+}
+
 export const diaryBlockHeight = (isHistory) => {
     return isHistory ? 500 : 650;
 };

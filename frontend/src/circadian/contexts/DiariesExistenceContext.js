@@ -1,7 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import { getDiariesExistence } from '../services/api';
 
-export const diariesExistenceContext = createContext();
+export const DiariesExistenceContext = createContext();
 
 export const DiariesExistenceProvider = ({ children }) => {
     const [diariesExistence, setDiariesExistence] = useState([]);
@@ -27,8 +27,8 @@ export const DiariesExistenceProvider = ({ children }) => {
     }, [fetchDiariesExistence]);
 
     return (
-        <diariesExistenceContext.Provider value={{ diariesExistence, setDiariesExistence }}>
+        <DiariesExistenceContext.Provider value={{ diariesExistence, setDiariesExistence }}>
             {children}
-        </diariesExistenceContext.Provider>
+        </DiariesExistenceContext.Provider>
     );
 };

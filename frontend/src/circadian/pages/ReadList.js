@@ -22,7 +22,7 @@ const ReadList = () => {
         ))
     );
     const [error, setError] = useState(null);
-    const [isDiariesMax, setIsDiariesMax] = useState(diaryList.length === diariesExistence.length);
+    const [isDiariesMax, setIsDiariesMax] = useState(false);
     const [loading, setLoading] = useState(false);
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
@@ -90,6 +90,7 @@ const ReadList = () => {
 
     useEffect(() => {
         if (diariesExistence.length > 0) {
+            if (diaries.length === diariesExistence.length) return
             fetchDiaryList();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

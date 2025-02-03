@@ -27,7 +27,7 @@ const ReadDiary = () => {
     });
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
-    const [isDiariesMax, setIsDiariesMax] = useState(diaries.length === diariesExistence.length);
+    const [isDiariesMax, setIsDiariesMax] = useState(false);
 
 
     const handleUpdateDiaryState = updateState(setDiaryState);
@@ -95,6 +95,7 @@ const ReadDiary = () => {
 
     useEffect(() => {
         if (diariesExistence.length > 0) {
+            if (diaries.length === diariesExistence.length) return
             fetchDiaries();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

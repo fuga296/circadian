@@ -1,11 +1,15 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { getDiaryList } from "../services/api";
-import { removeDuplicate } from "../utils/diary";
-import DiaryList from "../components/DiaryList/DiaryList";
+
 import ContentLayout from "../components/Layouts/ContentLayout";
-import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import DiaryList from "../components/DiaryList/DiaryList";
+
 import { DiariesContext } from "../contexts/DiariesContext";
 import { DiariesExistenceContext } from "../contexts/DiariesExistenceContext";
+
+import { getDiaryList } from "../services/api";
+import { removeDuplicate } from "../utils/diary";
+
+import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 const ReadList = () => {
 
@@ -17,11 +21,11 @@ const ReadList = () => {
             { sequence_number, date, created_at, text }
         ))
     );
+    const [error, setError] = useState(null);
+    const [isDiariesMax, setIsDiariesMax] = useState(diaryList.length === diariesExistence.length);
+    const [loading, setLoading] = useState(false);
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
-    const [isDiariesMax, setIsDiariesMax] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
 
 
     const filterDiaryListInfo = diaries => {
@@ -31,7 +35,6 @@ const ReadList = () => {
             ))
         );
     };
-
 
     const filterMatchingDiaryList = useCallback(() => {
         const pageSize = 30;
@@ -53,7 +56,7 @@ const ReadList = () => {
         };
 
         setDiaryList(prev => filterDiaryListInfo(removeDuplicate([...prev, ...diaries]), "date"));
-        setPageNumber(Math.floor(diariesExistence / 10) + 1);
+        setPageNumber(Math.floor(diariesExistence / pageSize) + 1);
         setIsDiariesMax(true);
     }, [diaries, pageNumber, diariesExistence, setDiaryList]);
 
@@ -92,7 +95,7 @@ const ReadList = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageAdditionalTimes, fetchDiaryList]);
 
-    useInfiniteScroll({ loading, isDiariesMax, incrementPageNumber: () => setPageAdditionalTimes((prev) => prev + 1) });
+    useInfiniteScroll({ loading, isDiariesMax, incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1) });
 
     return (
         <ContentLayout

@@ -26,25 +26,26 @@ const ReadDiary = () => {
         error: null,
     });
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
-    const [pageCount, setPageCount] = useState(0);
-    const [isDiariesMax, setIsDiariesMax] = useState(false);
+    const [pageNumber, setPageNumber] = useState(0);
+    const [isDiariesMax, setIsDiariesMax] = useState(diaries.length === diariesExistence.length);
 
 
     const handleUpdateDiaryState = updateState(setDiaryState);
 
 
     const filterMatchingDiaries = useCallback(() => {
-        const startIndex = pageCount * 10;
+        const pageSize = 10;
+        const startIndex = pageNumber * pageSize;
         const endIndex = diariesExistence.length;
 
-        for (let i = startIndex; i < endIndex; i += 10) {
-            const rangeEnd = Math.min(endIndex - i, 10);
+        for (let i = startIndex; i < endIndex; i += pageSize) {
+            const rangeEnd = Math.min(endIndex - i, pageSize);
 
             for (let j = 0; j < rangeEnd; j++) {
                 const currentDate = diariesExistence[i + j]?.date;
 
                 if (currentDate && currentDate !== diaries[i + j]?.date) {
-                    setPageCount(Math.floor(i / 10) + 1);
+                    setPageNumber(Math.floor(i / pageSize) + 1);
                     setDiaries(prev => removeDuplicate([...prev, ...diaries.slice(startIndex, i)], "date"));
                     return null;
                 };
@@ -52,9 +53,9 @@ const ReadDiary = () => {
         };
 
         setDiaries(prev => removeDuplicate([...prev, ...diaries], "date"));
-        setPageCount(Math.floor(diariesExistence / 10) + 1);
+        setPageNumber(Math.floor(diariesExistence / pageSize) + 1);
         setIsDiariesMax(true);
-    }, [diaries, pageCount, diariesExistence, setDiaries]);
+    }, [diaries, pageNumber, diariesExistence, setDiaries]);
 
     const fetchDiaries = useCallback(async () => {
         if (isDiariesMax || diaryState.loading) return;
@@ -63,10 +64,10 @@ const ReadDiary = () => {
         handleUpdateDiaryState('error', null);
 
         try {
-            const response = await getDiaryBlocks(pageCount + 1);
+            const response = await getDiaryBlocks(pageNumber + 1);
             if (response?.data) {
                 setDiaries(prev => removeDuplicate([...prev, ...response.data], "date"));
-                setPageCount(prev => prev + 1);
+                setPageNumber(prev => prev + 1);
                 if (response.data.length < 10) {
                     setIsDiariesMax(true);
                 }
@@ -89,7 +90,7 @@ const ReadDiary = () => {
             handleUpdateDiaryState('loading', false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDiariesMax, pageCount, diariesExistence])
+    }, [isDiariesMax, pageNumber, diariesExistence])
 
 
     useEffect(() => {

@@ -5,7 +5,7 @@ const useInfiniteScroll = ({ loading, isDiariesMax, incrementPageNumber }) => {
         if (
             !loading &&
             !isDiariesMax &&
-            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 600
+            window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2000
         ) {
             incrementPageNumber();
         }

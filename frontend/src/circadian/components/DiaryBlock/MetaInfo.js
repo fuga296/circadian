@@ -50,7 +50,7 @@ const MetaInfo = ({ diaryInfo, metaInfoContents = [], loading }) => {
                                 type="button"
                                 className={styles.metaInfoValueButton}
                                 onClick={() => {
-                                    const [year, month, day] = metaInfoContents[2].value.split('-');
+                                    const {year, month, day} = date;
                                     navigate(`/${APP_NAME}/history/${year}/${month}/${day}`);
                                 }}
                             >この日記の履歴を見る</button>

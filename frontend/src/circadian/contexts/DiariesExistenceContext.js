@@ -10,7 +10,7 @@ export const DiariesExistenceProvider = ({ children }) => {
         try {
             const response = await getDiariesExistence();
             if (response?.data) {
-                setDiariesExistence({ ...response.data });
+                setDiariesExistence([ ...response.data ]);
             } else {
                 // setDiariesExistence({});
             }

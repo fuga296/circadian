@@ -17,7 +17,7 @@ const AddDiary = () => {
     const today = new Date();
     const formattedDate = formatDate(today.getFullYear(), today.getMonth() + 1, today.getDate());
 
-    const { setDiaries } = useContext(DiariesContext);
+    const { diaries, setDiaries } = useContext(DiariesContext);
     const { diariesExistence } = useContext(DiariesExistenceContext);
 
     const [date, setDate] = useState(formattedDate);
@@ -28,7 +28,7 @@ const AddDiary = () => {
         loading: false,
         error: null,
     });
-    const [inputDiaries, setInputDiaries] = useState([]);
+    const [inputDiaries, setInputDiaries] = useState([ ...diaries ]);
 
     const handleUpdateDiaryState = updateState(setDiaryState);
 
@@ -56,6 +56,10 @@ const AddDiary = () => {
     }, [date]);
 
     useEffect(() => {
+        setInputDiaries((prev) => removeDuplicate([ ...prev.filter(d => d.date !== diary.date), diary ], "date"));
+    }, [diary, date]);
+
+    useEffect(() => {
         const inputDiaryExistsAlready = inputDiaries.find((diary) => diary.date === date);
         if (inputDiaryExistsAlready) {
             setDiary(inputDiaryExistsAlready);
@@ -66,7 +70,9 @@ const AddDiary = () => {
     }, [fetchDiary, date]);
 
     const handlers = {
-        handleChangeDate: (newDate) => setDate(newDate),
+        handleChangeDate: (newDate) => {
+            setDate(newDate);
+        },
 
         handleChangeText: (newText) => setDiary((prev) => ({
             ...prev,
@@ -87,13 +93,12 @@ const AddDiary = () => {
             const diaryExistsAlready = diariesExistence.find((diary) => diary.date === date);
 
             try {
+                setDiaries(prev => removeDuplicate([ ...prev, diary ], "date"));
                 if (!diaryExistsAlready) {
                     await createDiary(diary);
-                    setDiaries(prev => removeDuplicate([ ...prev, diary ], "date"));
                 } else {
                     const [year, month, day] = date.split('-');
                     await editDiary(year, month, day, diary);
-                    setDiaries(prev => removeDuplicate([ ...prev, diary ], "date"));
                 }
             } catch (err) {
                 console.error("Error creating or epdating diary:", err);

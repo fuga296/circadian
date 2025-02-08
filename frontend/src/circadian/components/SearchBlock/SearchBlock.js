@@ -3,22 +3,36 @@ import styles from "./SearchBlock.module.css";
 import searchSVG from "../../assets/images/search.svg";
 
 
-const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, style }) => {
+const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, handleChangeIsCommand = ()=>{}, style }) => {
 
     const [isCommand, setIsCommand] = useState(false);
     const [searchText, setSearchText] = useState("");
+
+    const toggleIsCommand = () => {
+        handleChangeIsCommand(!isCommand);
+        setIsCommand(prev => !prev);
+    };
 
     const handleChangeSearchText = (e) => {
         const value = e.target.value
         setSearchText(value);
         setCommond(value);
-    }
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (searchText) {
+            handleSearch();
+            setSearchText("");
+        };
+    };
 
     return (
-        <div className={`${styles.searchBlock} ${style}`}>
+        <form className={`${styles.searchBlock} ${style}`}>
             <button
                 type="button"
-                onClick={() => setIsCommand(prev => !prev)}
+                onClick={toggleIsCommand}
                 className={`${styles.toggleIsCommandBtn} ${isCommand && styles.purpleToggleIsCommandBtn}`}
                 title={isCommand ? "コマンドモードをやめる" : "コマンドモードにする"}
             >
@@ -28,6 +42,7 @@ const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, style }) => {
                     <path d="M11.1464 4.14645C10.9512 4.34171 10.9512 4.65829 11.1464 4.85355L14.2929 8L11.1464 11.1464C10.9512 11.3417 10.9512 11.6583 11.1464 11.8536C11.3417 12.0488 11.6583 12.0488 11.8536 11.8536L15.3536 8.35355C15.5488 8.15829 15.5488 7.84171 15.3536 7.64645L11.8536 4.14645C11.6583 3.95118 11.3417 3.95118 11.1464 4.14645Z" fill="currentColor"/>
                 </svg>
             </button>
+
             <input
                 type="search"
                 className={`${styles.searchBox} ${isCommand && styles.commandSearchBox}`}
@@ -35,10 +50,11 @@ const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, style }) => {
                 value={searchText}
                 onChange={handleChangeSearchText}
             />
-            <button type="button" className={styles.searchBtn} onClick={handleSearch}>
+
+            <button type="submit" className={styles.searchBtn} onClick={handleSubmit}>
                 <img src={searchSVG} alt="search" className={styles.searchImg} />
             </button>
-        </div>
+        </form>
     );
 };
 

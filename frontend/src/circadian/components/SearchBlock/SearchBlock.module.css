@@ -31,7 +31,7 @@
 .searchBox {
     height: 40px;
     padding-left: 45px;
-    font-size: 17px;
+    font-size: 15px;
     border: 1px solid var(--border-color-blue);
     border-radius: 50px;
     outline: none;

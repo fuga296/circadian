@@ -64,7 +64,7 @@ const ReadDiary = () => {
         handleUpdateDiaryState('error', null);
 
         try {
-            const response = await getDiaryBlocks(pageNumber + 1);
+            const response = await getDiaryBlocks(pageNumber + 1, "し");
             if (response?.data) {
                 setDiaries(prev => removeDuplicate([...prev, ...response.data], "date"));
                 setPageNumber(prev => prev + 1);

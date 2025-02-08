@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 from datetime import date
 from .serializers import UserSerializer, DiarySerializer, DiaryListSerializer, DiaryByMonthSerializer, DiaryExistenceSerializer, HistorySerializer, LogSerializer
 from .models import Diary, History, Log
+from utils.search.dsl_parser import parse_dsl, DSLParser, tokenize
 
 # User
 class RegisterView(generics.CreateAPIView):
@@ -101,7 +102,16 @@ class DiaryBlocksListView(generics.ListAPIView):
 
     def get_queryset(self):
         try:
-            return Diary.objects.filter(user=self.request.user)
+            qs = Diary.objects.filter(user=self.request.user)
+
+            dsl_query = self.request.GET.get("search-text", "").strip()
+            if dsl_query:
+                q_obj, sort_fields = parse_dsl(dsl_query)
+                qs = qs.filter(q_obj)
+                if sort_fields:
+                    qs = qs.order_by(*sort_fields)
+
+            return qs
         except Exception as e:
             raise NotFound(f"An unexpected error occurred: {str(e)}")
 

@@ -1,7 +1,14 @@
+.searchBlockWrapper {
+    padding-inline: 30px;
+    padding-block: 20px;
+    width: 100%;
+}
+
 .searchBlock {
     position: relative;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 

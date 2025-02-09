@@ -7,11 +7,12 @@ import { DiariesContext } from "../contexts/DiariesContext";
 import { DiariesExistenceContext } from "../contexts/DiariesExistenceContext";
 
 import { getDiaryBlocks } from "../services/api";
-import { removeDuplicate } from "../utils/diary";
+import { filterDiariesList, removeDuplicate } from "../utils/diary";
 import { updateState } from "../utils/universal";
 
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 import { handleError } from "../utils/error";
+import SearchBlock from "../components/SearchBlock/SearchBlock";
 
 
 const ReadDiary = () => {
@@ -19,15 +20,19 @@ const ReadDiary = () => {
     const { diaries, setDiaries } = useContext(DiariesContext);
     const { diariesExistence } = useContext(DiariesExistenceContext);
 
+    const [searchText, setSearchText] = useState("")
     const [diaryState, setDiaryState] = useState({
         isDisabled: true,
         isHistory: false,
         loading: false,
         error: null,
     });
+    const [displayedDiaries, setDisplayedDiaries] = useState(diaries);
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
+    const [isCommand, setIsCommand] = useState(false);
     const [isDiariesMax, setIsDiariesMax] = useState(false);
+    const [searchCnt, setSearchCnt] = useState(0);
 
 
     const handleUpdateDiaryState = updateState(setDiaryState);
@@ -65,6 +70,7 @@ const ReadDiary = () => {
 
         try {
             const response = await getDiaryBlocks(pageNumber + 1);
+
             if (response?.data) {
                 setDiaries(prev => removeDuplicate([...prev, ...response.data], "date"));
                 setPageNumber(prev => prev + 1);
@@ -95,7 +101,7 @@ const ReadDiary = () => {
 
     useEffect(() => {
         if (diariesExistence.length > 0) {
-            if (diaries.length === diariesExistence.length) return
+            if (displayedDiaries.length === diariesExistence.length) return
             fetchDiaries();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,16 +109,31 @@ const ReadDiary = () => {
 
     useInfiniteScroll({ loading: diaryState.loading, isDiariesMax, incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1) });
 
+    useEffect(() => {
+        setDisplayedDiaries(filterDiariesList(diaries, searchText, isCommand));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [diaries, searchCnt]);
+
+    const handleSearch = () => {
+        setSearchCnt(prev => prev+1);
+    };
+
     return (
         <ContentLayout
             header={
-                <></>
+                <>
+                    <SearchBlock
+                        setCommond={setSearchText}
+                        handleSearch={handleSearch}
+                        handleChangeIsCommand={()=>setIsCommand(prev=>!prev)}
+                    />
+                </>
             }
 
             main={
                 <>
                     {
-                        diaries.map((diary, index) => (
+                        displayedDiaries.map((diary, index) => (
                             <DiaryBlock
                                 diaryInfo={diary}
                                 handlers={null}

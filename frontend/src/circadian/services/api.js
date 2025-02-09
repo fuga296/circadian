@@ -49,8 +49,8 @@ export const deleteDiary = async (year, month, day) => {
     await axiosInstance.delete(BASE_API_PATH + `diary/${year}-${month}-${day}/`);
 };
 
-export const getDiaryBlocks = async (pageNum) => {
-    const response = await axiosInstance.get(BASE_API_PATH + `diary/blocks/?page=${pageNum}`);
+export const getDiaryBlocks = async (pageNum, searchText="", isCommand=false) => {
+    const response = await axiosInstance.get(BASE_API_PATH + `diary/blocks/?page=${pageNum}&is-command=${isCommand}&search-text=${searchText}`);
     return response;
 };
 

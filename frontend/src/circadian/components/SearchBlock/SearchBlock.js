@@ -3,7 +3,7 @@ import styles from "./SearchBlock.module.css";
 import searchSVG from "../../assets/images/search.svg";
 
 
-const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, handleChangeIsCommand = ()=>{}, style }) => {
+const SearchBlock = ({ setCommond, handleSearch, handleChangeIsCommand, style }) => {
 
     const [isCommand, setIsCommand] = useState(false);
     const [searchText, setSearchText] = useState("");
@@ -24,7 +24,6 @@ const SearchBlock = ({ setCommond = ()=>{}, handleSearch = ()=>{}, handleChangeI
 
         if (searchText) {
             handleSearch();
-            setSearchText("");
         };
     };
 

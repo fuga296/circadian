@@ -2,22 +2,24 @@ import re
 from django.db.models import Q
 from django.utils.dateparse import parse_date
 
-def parse_dsl(query_str):
+
+def parse_dsl(query_str, is_command=False):
     """
-    DSL文字列を「フィルタ部分」と「SORT BY」以降のソート指定に分割し、
-    フィルタ部分は DSLParser により Q オブジェクトに、ソート部分はフィールドリストに変換する。
+    DSL文字列を「SORT BY」で分割し、フィルタ部分を DSLParser に渡して Q オブジェクト、
+    ソート部分をフィールドリストに変換する。
+
+    :param query_str: DSL文字列
+    :param is_command: TrueならDSLとして解析、Falseなら空白区切りで text__icontains のAND検索として扱う
     """
-    if not query_str.strip():
-        return Q(), []  # 空文字なら全件検索とする
     # 大文字小文字を無視して "SORT BY" で分割
     parts = re.split(r'\s+SORT\s+BY\s+', query_str, flags=re.IGNORECASE)
     filter_part = parts[0].strip()
     sort_part = parts[1].strip() if len(parts) > 1 else ""
 
-    parser = DSLParser(filter_part)
+    parser = DSLParser(filter_part, is_command=is_command)
     q_obj = parser.parse_expression()
 
-    sort_fields = [s.strip() for s in sort_part.split(",")] if sort_part else []
+    sort_fields = [s.strip() for s in sort_part.split(",")] if sort_part else ["-date"]
     return q_obj, sort_fields
 
 def tokenize(text):
@@ -29,8 +31,20 @@ def tokenize(text):
     return tokens
 
 class DSLParser:
-    def __init__(self, text):
-        self.tokens = tokenize(text)
+    def __init__(self, text, is_command=False):
+        """
+        :param text: 入力DSL文字列
+        :param is_command: True の場合、DSL形式としてパース（従来処理）。False の場合は、
+                            空白区切りの各トークンを text フィールドの部分一致検索として扱う。
+        """
+        self.is_command = is_command
+        if self.is_command:
+            # DSL 形式なら tokenize を用いて詳細なトークンリストを生成
+            self.tokens = tokenize(text)
+        else:
+            # 通常モード：入力文字列を単純に空白で分割
+            # 余分な空白は事前に整形しておくとよい
+            self.tokens = text.split()
         self.pos = 0
 
     def current_token(self):
@@ -45,6 +59,12 @@ class DSLParser:
 
     def parse_expression(self):
         # expression ::= term ( OR term )*
+        if not self.is_command:
+            q_obj = Q()
+            for token in self.tokens:
+                q_obj &= Q(text_contains=token)
+            return q_obj
+
         left = self.parse_term()
         while self.current_token() and self.current_token().upper() == "OR":
             self.consume("OR")
@@ -60,11 +80,11 @@ class DSLParser:
             self.consume("AND")
             right = self.parse_factor()
             left = left & right
-        # 空白区切りで連続している場合も AND と解釈する（ここではトークンが条件であれば）
-        while self.current_token() and self.current_token() not in (")", "OR"):
-            # もし次が論理演算子でなければ AND とみなす
-            right = self.parse_factor()
-            left = left & right
+        # # 空白区切りで連続している場合も AND と解釈する（ここではトークンが条件であれば）
+        # while self.current_token() and self.current_token() not in (")", "OR"):
+        #     # もし次が論理演算子でなければ AND とみなす
+        #     right = self.parse_factor()
+        #     left = left & right
         return left
 
     def parse_factor(self):

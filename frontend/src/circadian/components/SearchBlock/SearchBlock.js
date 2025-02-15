@@ -22,9 +22,7 @@ const SearchBlock = ({ setCommond, handleSearch, handleChangeIsCommand, style })
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (searchText) {
-            handleSearch();
-        };
+        handleSearch(searchText);
     };
 
     return (

@@ -7,7 +7,7 @@ import { DiariesContext } from "../contexts/DiariesContext";
 import { DiariesExistenceContext } from "../contexts/DiariesExistenceContext";
 
 import { getDiaryBlocks } from "../services/api";
-import { filterDiariesList, removeDuplicate } from "../utils/diary";
+import { removeDuplicate, sortDiaries } from "../utils/diary";
 import { updateState } from "../utils/universal";
 
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
@@ -20,19 +20,21 @@ const ReadDiary = () => {
     const { diaries, setDiaries } = useContext(DiariesContext);
     const { diariesExistence } = useContext(DiariesExistenceContext);
 
-    const [searchText, setSearchText] = useState("")
+    const [searchText, setSearchText] = useState("");
     const [diaryState, setDiaryState] = useState({
         isDisabled: true,
         isHistory: false,
         loading: false,
         error: null,
     });
-    const [displayedDiaries, setDisplayedDiaries] = useState(diaries);
+    const [displayedDiaries, setDisplayedDiaries] = useState([]);
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
     const [isCommand, setIsCommand] = useState(false);
     const [isDiariesMax, setIsDiariesMax] = useState(false);
-    const [searchCnt, setSearchCnt] = useState(0);
+    const [isSearched, setIsSearched] = useState(false);
+    const [isSearchedDiariesMax, setIsSearchedDiariesMax] = useState(false);
+    const [searchPageNumber, setSearchPageNumber] = useState(0);
 
 
     const handleUpdateDiaryState = updateState(setDiaryState);
@@ -51,34 +53,65 @@ const ReadDiary = () => {
 
                 if (currentDate && currentDate !== diaries[i + j]?.date) {
                     setPageNumber(Math.floor(i / pageSize) + 1);
-                    setDiaries(prev => removeDuplicate([...prev, ...diaries.slice(startIndex, i)], "date"));
-                    return null;
+                    setDiaries(prev => {
+                        const newDiaries = removeDuplicate([...prev, ...diaries.slice(startIndex, i)], "date");
+                        setDisplayedDiaries(newDiaries);
+                        return newDiaries;
+                    });
+                    return
                 };
             };
         };
 
-        setDiaries(prev => removeDuplicate([...prev, ...diaries], "date"));
+        setDiaries(prev => {
+            const newDiaries = removeDuplicate([ ...prev ], "date");
+            setDisplayedDiaries(newDiaries);
+            return newDiaries;
+        });
         setPageNumber(Math.floor(diariesExistence / pageSize) + 1);
         setIsDiariesMax(true);
     }, [diaries, pageNumber, diariesExistence, setDiaries]);
 
     const fetchDiaries = useCallback(async () => {
-        if (isDiariesMax || diaryState.loading) return;
+        const newIsSearched = !!searchText;
+
+        if (newIsSearched) {
+            if (isSearchedDiariesMax || diaryState.loading) return;
+        } else {
+            if (isDiariesMax || diaryState.loading) return;
+        }
 
         handleUpdateDiaryState('loading', true);
         handleUpdateDiaryState('error', null);
 
         try {
-            const response = await getDiaryBlocks(pageNumber + 1);
+            const newDiariesAdder = (prev, data) => sortDiaries(removeDuplicate([...prev, ...data], "date"));
+            if (newIsSearched) {
+                const response = await getDiaryBlocks(searchPageNumber + 1, searchText, isCommand);
+                const data = response?.data || [];
 
-            if (response?.data) {
-                setDiaries(prev => removeDuplicate([...prev, ...response.data], "date"));
-                setPageNumber(prev => prev + 1);
-                if (response.data.length < 10) {
-                    setIsDiariesMax(true);
+                if (data.length > 0) {
+                    setDisplayedDiaries(prev => newDiariesAdder(searchPageNumber !== 0 ? prev : [], data));
+                    setDiaries(prev => newDiariesAdder(prev, data));
+                    setSearchPageNumber(prev => prev + 1);
+                }
+
+                if (data.length < 10) {
+                    setIsSearchedDiariesMax(true);
                 }
             } else {
-                setIsDiariesMax(true);
+                const response = await getDiaryBlocks(pageNumber + 1);
+                const data = response?.data || [];
+
+                if (data.length > 0) {
+                    setDisplayedDiaries(prev => newDiariesAdder(prev, data));
+                    setDiaries(prev => newDiariesAdder(prev, data));
+                    setPageNumber(prev => prev + 1);
+                }
+
+                if (data.length < 10) {
+                    setIsDiariesMax(true);
+                }
             }
         } catch (err) {
             console.log(handleError(err));
@@ -92,11 +125,11 @@ const ReadDiary = () => {
                 handleUpdateDiaryState('error', "エラーが発生しました。時間をおいてやり直してください。");
             }
         } finally {
-            filterMatchingDiaries();
+            !newIsSearched && filterMatchingDiaries();
             handleUpdateDiaryState('loading', false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDiariesMax, pageNumber, diariesExistence])
+    }, [isDiariesMax, pageNumber, isSearchedDiariesMax, searchPageNumber, searchText, isCommand, diariesExistence])
 
 
     useEffect(() => {
@@ -107,15 +140,19 @@ const ReadDiary = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageAdditionalTimes, diariesExistence.length]);
 
-    useInfiniteScroll({ loading: diaryState.loading, isDiariesMax, incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1) });
+    useInfiniteScroll({
+        loading: diaryState.loading,
+        isDiariesMax: isSearched ? isSearchedDiariesMax : isDiariesMax,
+        incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1),
+    });
 
-    useEffect(() => {
-        setDisplayedDiaries(filterDiariesList(diaries, searchText, isCommand));
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [diaries, searchCnt]);
 
     const handleSearch = () => {
-        setSearchCnt(prev => prev+1);
+        setDisplayedDiaries([]);
+        setSearchPageNumber(0);
+        setIsSearchedDiariesMax(false);
+        setIsSearched(!!searchText);
+        setPageAdditionalTimes(prev => prev + 1);
     };
 
     return (

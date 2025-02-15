@@ -50,12 +50,12 @@ export const deleteDiary = async (year, month, day) => {
 };
 
 export const getDiaryBlocks = async (pageNum, searchText="", isCommand=false) => {
-    const response = await axiosInstance.get(BASE_API_PATH + `diary/blocks/?page=${pageNum}&is-command=${isCommand}&search-text=${searchText}`);
+    const response = await axiosInstance.get(BASE_API_PATH + `diary/blocks/?page=${pageNum}&search-text=${searchText}&is-command=${isCommand}`);
     return response;
 };
 
-export const getDiaryList = async pageNum => {
-    const response = await axiosInstance.get(BASE_API_PATH + `diary/list?page=${pageNum}`);
+export const getDiaryList = async (pageNum, searchText="", isCommand=false) => {
+    const response = await axiosInstance.get(BASE_API_PATH + `diary/list?page=${pageNum}&is-command=${isCommand}&search-text=${searchText}`);
     return response;
 };
 

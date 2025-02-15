@@ -10,6 +10,7 @@ import { getDiaryList } from "../services/api";
 import { removeDuplicate, sortDiaries } from "../utils/diary";
 
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
+import SearchBlock from "../components/SearchBlock/SearchBlock";
 
 
 const ReadList = () => {
@@ -17,16 +18,17 @@ const ReadList = () => {
     const { diaries } = useContext(DiariesContext);
     const { diariesExistence } = useContext(DiariesExistenceContext);
 
-    const [diaryList, setDiaryList] = useState(
-        diaries.map(({ sequence_number, date, created_at, text }) => (
-            { sequence_number, date, created_at, text }
-        ))
-    );
+    const [searchText, setSearchText] = useState("");
+    const [diaryList, setDiaryList] = useState([]);
     const [error, setError] = useState(null);
+    const [isCommand, setIsCommand] = useState(false);
     const [isDiariesMax, setIsDiariesMax] = useState(false);
     const [loading, setLoading] = useState(false);
     const [pageAdditionalTimes, setPageAdditionalTimes] = useState(1);
     const [pageNumber, setPageNumber] = useState(0);
+    const [isSearched, setIsSearched] = useState(false);
+    const [isSearchedDiariesMax, setIsSearchedDiariesMax] = useState(false);
+    const [searchPageNumber, setSearchPageNumber] = useState(0);
 
 
     const filterDiaryListInfo = diaries => {
@@ -51,7 +53,7 @@ const ReadList = () => {
                 if (currentDate && currentDate !== diaries[i + j]?.date) {
                     setPageNumber(Math.floor(i / pageSize) + 1);
                     setDiaryList(prev => removeDuplicate([...prev, ...filterDiaryListInfo(diaries.slice(startIndex, i))], "date"));
-                    return null;
+                    return
                 };
             };
         };
@@ -63,46 +65,86 @@ const ReadList = () => {
 
 
     const fetchDiaryList = useCallback(async () => {
-        if (isDiariesMax || loading) return;
+        const newIsSearched = !!searchText;
+
+        if (newIsSearched) {
+            if (isSearchedDiariesMax || loading) return;
+        } else {
+            if (isDiariesMax || loading) return;
+        }
 
         setLoading(true);
         setError(null);
 
         try {
-            const response = await getDiaryList(pageNumber + 1);
-            if (response?.data) {
-                setDiaryList(prev => removeDuplicate([...prev, ...response.data], "date"));
-                setPageNumber(prev => prev + 1);
-                if (response.data.length < 30) {
-                    setIsDiariesMax(true);
+            const newDiariesAdder = (prev, data) => sortDiaries(removeDuplicate([...prev, ...data], "date"));
+            if (newIsSearched) {
+                const response = await getDiaryList(pageNumber + 1, searchText, isCommand);
+                const data = response?.data || [];
+
+                if (data.length > 0) {
+                    setDiaryList(prev => newDiariesAdder(searchPageNumber !== 0 ? prev : [], data));
+                    setSearchPageNumber(prev => prev + 1);
+                }
+
+                if (data.length < 10) {
+                    setIsSearchedDiariesMax(true);
                 }
             } else {
-                setIsDiariesMax(true);
+                const response = await getDiaryList(pageNumber + 1);
+                const data = response?.data || [];
+
+                if (data.length > 0) {
+                    setDiaryList(prev => newDiariesAdder(prev, data));
+                    setPageNumber(prev => prev + 1);
+                }
+
+                if (data.length < 10) {
+                    setIsDiariesMax(true);
+                }
             }
         } catch (err) {
             console.error("Error fetching diary:", err);
             setError("Failed to fetch diary. Please try again later.");
         } finally {
-            filterMatchingDiaryList();
+            !newIsSearched && filterMatchingDiaryList();
             setLoading(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isDiariesMax, pageNumber, diariesExistence]);
+    }, [isDiariesMax, pageNumber, isSearchedDiariesMax, searchPageNumber, searchText, isCommand, diariesExistence]);
 
     useEffect(() => {
         if (diariesExistence.length > 0) {
-            if (diaries.length === diariesExistence.length) return
+            if (diaryList.length === diariesExistence.length) return
             fetchDiaryList();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [pageAdditionalTimes, fetchDiaryList]);
+    }, [pageAdditionalTimes, diariesExistence.length]);
 
-    useInfiniteScroll({ loading, isDiariesMax, incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1) });
+    useInfiniteScroll({
+        loading: loading,
+        isDiariesMax: isSearched ? isSearchedDiariesMax : isDiariesMax,
+        incrementPageNumber: () => setPageAdditionalTimes(prev => prev + 1),
+    });
+
+    const handleSearch = () => {
+        setDiaryList([]);
+        setSearchPageNumber(0);
+        setIsSearchedDiariesMax(false);
+        setIsSearched(!!searchText);
+        setPageAdditionalTimes(prev => prev + 1);
+    };
 
     return (
         <ContentLayout
             header={
-                <></>
+                <>
+                    <SearchBlock
+                        setCommond={setSearchText}
+                        handleSearch={handleSearch}
+                        handleChangeIsCommand={()=>setIsCommand(prev=>!prev)}
+                    />
+                </>
             }
 
             main={

@@ -147,8 +147,11 @@ class DiaryListListView(generics.ListAPIView):
             qs = Diary.objects.filter(user=self.request.user)
 
             dsl_query = self.request.GET.get("search-text", "").strip()
+            # is-commandは文字列なので、"true" なら True、それ以外は False とする
+            is_command_str = self.request.GET.get("is-command", "false").lower()
+            is_command = (is_command_str == "true")
             if dsl_query:
-                q_obj, sort_fields = parse_dsl(dsl_query)
+                q_obj, sort_fields = parse_dsl(dsl_query, is_command=is_command)
                 qs = qs.filter(q_obj)
                 if sort_fields:
                     qs = qs.order_by(*sort_fields)
